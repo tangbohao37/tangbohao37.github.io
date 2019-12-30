@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: ""
+title: "Bear in Mind^"
 subtitle: "这年头没点知识储备，双11都算不明白"
 description: "收集探索IT相关知识"
 keywords: "前端,linux,vue,技术,IT,电脑"
 author: Tbh
-language: zh-cn
+language: zh-CN
 timezone: "Asia/Shanghai"
 
 # URL

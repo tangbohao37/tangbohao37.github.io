@@ -1,6 +1,8 @@
 --- #---------------------------
 #---------------------------
-# 这个文件将覆盖themes下的config.yml
+
+# 这个文件将覆盖themes下的config.yml！！！！！！！！
+
 # Fluid
 # Author: Fluid-dev organization
 # Github: https://github.com/fluid-dev/hexo-theme-fluid
@@ -119,14 +121,15 @@ scroll_top_arrow: # 向顶部滚动的箭头
 # Index Page
 #---------------------------
 index:
-    banner_img: /img/default.png # 首页 Banner 头图，以下相同
+    # banner_img: /img/default.png # 首页 Banner 头图，以下相同
+    banner_img: /img/20190728013806.jpg
     banner_img_height: 100 # 头图高度，屏幕百分比，available: 0 - 100
     slogan: # 首页副标题的独立设置
         enable: true # 为 false 则不显示任何内容
         text: # 为空则按 hexo config.subtitle 显示
     auto_excerpt:
         enable: true
-    post_url_target: _self # available: _blank | _self
+    post_url_target: _blank # available: _blank | _self
     post_meta: # 是否显示文章信息（时间、分类、标签）
         date: true
         category: true
@@ -137,7 +140,7 @@ index:
 # Post Page
 #---------------------------
 post:
-    banner_img: /img/default.png
+    banner_img: /img/20190728013806.jpg
     banner_img_height: 70 # available: 0 - 100
     meta: # 文章标题下方的信息
         date: # 文章日期
