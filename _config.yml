@@ -45,7 +45,7 @@ post_asset_folder: true #  开启独立静态文件的存储目录
 relative_link: false
 future: true
 highlight:
-    enable: true
+    enable: false
     line_number: true
     auto_detect: false
     tab_replace: ""
@@ -93,7 +93,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: alpha-dust
+theme: fluid
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
