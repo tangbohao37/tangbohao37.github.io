@@ -12,7 +12,7 @@ categorites:
 
 ---
 
-根据阮一峰的[《ECMAScript 6 入门》](http://es6.ruanyifeng.com/)的教程所做的一些个人总结和思考
+根据阮一峰的《ECMAScript 6 入门》的教程所做的一些个人总结和思考
 <!-- more -->
 
 ### let/const
