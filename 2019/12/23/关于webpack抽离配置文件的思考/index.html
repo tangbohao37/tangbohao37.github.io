@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="收集探索IT相关知识">
+  <meta name="author" content="Tbh">
+  <meta name="keywords" content="前端,linux,vue,技术,IT,电脑">
+  <title>关于webpack抽离配置文件的思考 ~ Bear in Mind^</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Bear in Mind^</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/20190728013806.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 十二月 23日 2019, 9:43 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.2k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      4 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>大部分项目开发使用的环境和生产环境有较大差异，且前后端通过API进行通信，部署生产项目时必须大量修改配置重新打包。有时候可能仅仅是配置文件的微小改变却需要重新打包部署发布，对于我们本就心力憔悴的程序员来说又是一种折磨。so 我们需要一种更加便利的配置加载方式！</p>
+<a id="more"></a>
+<hr>
+<blockquote>
+<p>目标：分离出prod配置文件，同时保留dev的配置。根据webpack得mode字段判断当前环境。打包后在不同的环境自动使用不同的配置文件，同时在生产环境可以根据需求动态修改，无需重新打包部署</p>
+</blockquote>
+<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>在大量浏览网上的解决方案后，发现大致方法分为3种。</p>
+<blockquote>
+<ol>
+<li>建立globalConfig.json文件用来存放配置，打包的时候分离出这个json。在项目初始化的时候再异步加载该文件。</li>
+</ol>
+</blockquote>
+<ul>
+<li>思考：个人认为是一种很不错的思路，但是如果个别项目前期初始化需要做大量的逻辑判断或多个异步操作，这个时候异步就显得有些难以控制了，必须用 async/await将异步改为同步，需要前期做好规划。</li>
+</ul>
+<blockquote>
+<ol start="2">
+<li>网上还有一种方式是通过webpack的 <a href="https://www.npmjs.com/package/generate-asset-webpack-plugin" target="_blank" rel="noopener">generate-asset-webpack-plugin</a> 插件，在打包的时候读取一份json然后再重新生成一份配置文件。</li>
+</ol>
+</blockquote>
+<ul>
+<li>思考：这种打包方式更能把webpack的能力发挥到极致，本想仔细研究的，但是由于小弟实在是没有找到这个插件的详细文档，且常年没有更新，貌似已经被抛弃了，因此有太多不确定性 so 放弃了种方式</li>
+</ul>
+<blockquote>
+<ol start="3">
+<li>利用浏览器的window全局对象。先项目中建立一个globalConfig.js，在打包时在html里先加载这个文件，将配置文件注入到window全局对象中。然后执行后面的初始化逻辑。</li>
+</ol>
+</blockquote>
+<ul>
+<li>思考：目前来讲个人认为这是一个简单且可靠的方式。虽然大家都知道占用全局变量是一个不好的习惯，但毕竟是API配置文件其重要性不言而喻，so 占用一个全局变量也无伤大雅吧~</li>
+</ul>
+<h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><blockquote>
+<p>环境：使用vue3，webpack4未使用vue-cli </p>
+</blockquote>
+<ul>
+<li>手写一个最基础的webpack配置，这里只设置了开发dev和生产环境prod两种配置，vue能跑通就行~~  重点是在打包时根据 process.env. NODE_ENV 判断应该使用dev还是prod的配置文件。在build生产环境时利用 copy-webpack-plugin 插件将 prodGlobalConfig.js 复制到dist下，然后再html(需要使用简单的ejs语法)中加载即可</li>
+</ul>
+<pre><code>├── build
+│   ├── webpack.config.base.js
+│   ├── webpack.config.dev.js
+│   └── webpack.config.prod.js
+├── package-lock.json
+├── package.json
+├── public
+│   ├── devGlobalConfig.js  &lt;===你的开发环境config
+│   ├── index.html
+│   └── prodGlobalConfig.js &lt;===正式环境config
+└── src
+    ├── App.vue
+    ├── main.js
+    ├── store
+    │   ├── config.js
+    │   └── index.js
+    └── utils
+        └── getConfig.js   &lt;===定义根据环境获取配置的工具函数</code></pre><p>webpack.config.prod.js: 使用CopyWebpackPlugin将配置文件复制到打包目录</p>
+<pre><code>const common = require(&quot;./webpack.config.base.js&quot;);
+const marge = require(&quot;webpack-merge&quot;);
+const path = require(&quot;path&quot;);
+const { CleanWebpackPlugin } = require(&quot;clean-webpack-plugin&quot;);
+const CopyWebpackPlugin = require(&quot;copy-webpack-plugin&quot;);
+
+module.exports = marge(common, {
+    mode: &quot;production&quot;,
+    output: {
+        filename: &quot;[name].[chunkhash].bundle.js&quot;
+    },
+    plugins: [
+        new CleanWebpackPlugin(), 
+        new CopyWebpackPlugin([     &lt;== 将生产环境配置文件拷贝到最终的打包目录下
+            {
+                context: path.resolve(__dirname,&#39;..&#39;),
+                from: &quot;./public/prodGlobalConfig.js&quot;,
+                to: &quot;.&quot;
+            }
+        ])
+    ]
+});
+</code></pre><p>prodGlobalConfig.js：</p>
+<pre><code>// 生产环境配置项
+window.globalConfig = {
+    text: &quot;prod&quot;
+};</code></pre><p>devGlobalConfig.js：</p>
+<pre><code> // 开发环境
+const devConfig = {
+    text: &quot;dev&quot;
+};
+export { devConfig };</code></pre><p>getConfig.js：根据process.env. NODE_ENV判断当前所处的环境，返回不同的配置文件</p>
+<pre><code>import { devConfig } from &quot;../../public/devGlobalConfig&quot;;
+
+const getConfig = function() {
+    if (process.env.NODE_ENV === &quot;production&quot;) {
+        return window.globalConfig;
+    } else {
+        return devConfig;
+    }
+};
+
+export { getConfig };</code></pre><p>main.js： 简单处理。直接将配置文件写入根对象</p>
+<pre><code>import Vue from &quot;vue&quot;;
+import { getConfig } from &quot;./utils/getConfig&quot;;
+import App from &quot;./App.vue&quot;;
+
+Vue.prototype.globalConfig = getConfig();
+
+new Vue({
+    el: &quot;#app&quot;,
+    render: h =&gt; h(App)
+});</code></pre><p>index.html：使用ejs语法判断所处环境，控制是否加载文件</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot; /&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot; /&gt;
+        &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+        &lt;!-- 判断当前环境 --&gt;
+        &lt;% if(process.env.NODE_ENV===&#39;production&#39;){%&gt;
+        &lt;script src=&quot;./prodGlobalConfig.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+        &lt;% }%&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF">前端</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/webpack">webpack</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/webpack">webpack</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "关于webpack抽离配置文件的思考&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

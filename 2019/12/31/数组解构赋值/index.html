@@ -16,7 +16,7 @@
   <meta name="description" content="收集探索IT相关知识">
   <meta name="author" content="Tbh">
   <meta name="keywords" content="前端,linux,vue,技术,IT,电脑">
-  <title>归档 ~ Bear in Mind^</title>
+  <title>数组解构赋值 ~ Bear in Mind^</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -107,7 +107,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/default.png')no-repeat center center;
+         style="background: url('/img/20190728013806.jpg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -117,6 +117,41 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期二, 十二月 31日 2019, 3:25 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    402 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
             
           </div>
 
@@ -128,62 +163,105 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>根据阮一峰的《ECMAScript 6 入门》的教程所做的一些个人总结和思考</p>
+<a id="more"></a>
+
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构</p>
+<h4 id="示例摘要"><a href="#示例摘要" class="headerlink" title="示例摘要"></a>示例摘要</h4><pre><code>let [a, b, c] = [1, 2, 3]; 
+
+let [head, ...tail] = [1, 2, 3, 4];
+head // 1
+tail // [2, 3, 4]
+
+let [x, y, ...z] = [&#39;a&#39;];
+x // &quot;a&quot;
+y // undefined
+z // []   //空数组</code></pre><p> set解构也可以用数组遍历</p>
+<pre><code>let [a,b,c] = new Set([1,2,3])</code></pre><blockquote>
+<p>只要数据具有Iterator接口，均可以被解构</p>
+</blockquote>
+<h5 id="可使用默认值"><a href="#可使用默认值" class="headerlink" title="可使用默认值"></a>可使用默认值</h5><pre><code>let [a=123]=[undefined]
+/// a = 123
+
+let [x =1 ]= [ undefined ]
+// x = 1
+
+let [ x = 2] = [null]
+//x = null </code></pre><p>由于ES6中使用严格相等运算符(====)，所以只有元素严格等于undefined时才生效</p>
+<ul>
+<li>惰性求值</li>
+</ul>
+<p>解构中如果默认的值是一个表达式，则在使用时才会执行。</p>
+<ul>
+<li>对象解构</li>
+</ul>
+<pre><code>let { foo: baz } = { foo: &#39;aaa&#39;, bar: &#39;bbb&#39; };
+baz // &quot;aaa&quot;
+
+let obj = { first: &#39;hello&#39;, last: &#39;world&#39; };
+let { first: f, last: l } = obj;   // 指定解构为新变量
+f // &#39;hello&#39;
+l // &#39;world&#39;</code></pre><p>上例对象解构中 foo为解构模式，baz为被赋值变量，即key为解构模式，value为目标变量。</p>
+<p>这里可以使用ES6的新特性，简写为下面的情况，</p>
+<pre><code>const { log } = console;     
+// 完整写法 const { log:log}=console
+log(&#39;hello&#39;) // hello</code></pre><ul>
+<li>注意：解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。</li>
+</ul>
+<pre><code>let { prop: x } = undefined; // TypeError
+let { prop: y } = null; // TypeError</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
                 
-
-<div class="list-group">
-  <p class="h4">共计 5 篇文章</p>
-  <hr>
-  
-    
-      
-      <p class="h5">2020</p>
-    
-    <a href="/2020/03/29/js%E4%B8%AD%E7%9A%84%E6%A0%88%E9%83%BD%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">js中的栈都能干什么</span>
-      <span style="float: right;">03-29</span>
-    </a>
-  
-    
-    <a href="/2020/01/03/babel%E5%85%A5%E9%97%A8/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">babel入门</span>
-      <span style="float: right;">01-03</span>
-    </a>
-  
-    
-      
-      <p class="h5">2019</p>
-    
-    <a href="/2019/12/31/%E6%95%B0%E7%BB%84%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">数组解构赋值</span>
-      <span style="float: right;">12-31</span>
-    </a>
-  
-    
-    <a href="/2019/12/30/let-const%E5%91%BD%E4%BB%A4/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">let/const命令</span>
-      <span style="float: right;">12-30</span>
-    </a>
-  
-    
-    <a href="/2019/12/23/%E5%85%B3%E4%BA%8Ewebpack%E6%8A%BD%E7%A6%BB%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E6%80%9D%E8%80%83/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">关于webpack抽离配置文件的思考</span>
-      <span style="float: right;">12-23</span>
-    </a>
-  
-</div>
-
-
-              </div>
-            </div>
+                  <a class="hover-with-bg" href="/tags/%E8%A7%A3%E6%9E%84">解构</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -262,6 +340,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -302,7 +385,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "数组解构赋值&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

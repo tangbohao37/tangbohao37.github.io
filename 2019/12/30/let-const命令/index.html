@@ -16,7 +16,7 @@
   <meta name="description" content="收集探索IT相关知识">
   <meta name="author" content="Tbh">
   <meta name="keywords" content="前端,linux,vue,技术,IT,电脑">
-  <title>归档 ~ Bear in Mind^</title>
+  <title>let/const命令 ~ Bear in Mind^</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -107,7 +107,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/default.png')no-repeat center center;
+         style="background: url('/img/20190728013806.jpg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -117,6 +117,41 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 十二月 30日 2019, 11:51 中午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    412 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
             
           </div>
 
@@ -128,62 +163,83 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>根据阮一峰的《ECMAScript 6 入门》的教程所做的一些个人总结和思考</p>
+<a id="more"></a>
+
+<h3 id="let-const"><a href="#let-const" class="headerlink" title="let/const"></a>let/const</h3><h4 id="死区"><a href="#死区" class="headerlink" title="死区"></a>死区</h4><p>采用块级作用域，不存在<strong>变量提升</strong>，会产生暂时性<strong>死区</strong>。 ES6 明确规定，如果区块中存在let和const命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错</p>
+<pre><code>var tmp = 123;
+
+if (true) {
+  tmp = &#39;abc&#39;; // ReferenceError 
+  let tmp; // 在当前块作用域 tmp属于声明之前就使用 so 报错
+}</code></pre><h4 id="函数声明不会提升"><a href="#函数声明不会提升" class="headerlink" title="函数声明不会提升"></a>函数声明不会提升</h4><p> 由于为了兼容老代码，在支持ES6的浏览器中会有所修改</p>
+<ul>
+<li>允许在块级作用域内声明函数。</li>
+<li>函数声明类似于var，即会提升到全局作用域或函数作用域的头部。</li>
+<li>同时，函数声明还会提升到所在的块级作用域的头部。</li>
+</ul>
+<h4 id="const本质"><a href="#const本质" class="headerlink" title="const本质"></a>const本质</h4><blockquote>
+<p>const实际上保证的，并不是变量的值不得改动，而是变量<strong>指向的内存地址</strong>所保存的数据不得改动。</p>
+</blockquote>
+<ul>
+<li>对于简单类型的数据（数值、字符串、布尔值）: 值就保存在变量指向的那个内存地址，因此等同于常量。</li>
+<li>但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，const只能保证这个指针是固定的（即总是指向另一个固定的地址），至于它指向的数据结构是不是可变的，就完全不能控制了。</li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
                 
-
-<div class="list-group">
-  <p class="h4">共计 5 篇文章</p>
-  <hr>
-  
-    
-      
-      <p class="h5">2020</p>
-    
-    <a href="/2020/03/29/js%E4%B8%AD%E7%9A%84%E6%A0%88%E9%83%BD%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">js中的栈都能干什么</span>
-      <span style="float: right;">03-29</span>
-    </a>
-  
-    
-    <a href="/2020/01/03/babel%E5%85%A5%E9%97%A8/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">babel入门</span>
-      <span style="float: right;">01-03</span>
-    </a>
-  
-    
-      
-      <p class="h5">2019</p>
-    
-    <a href="/2019/12/31/%E6%95%B0%E7%BB%84%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">数组解构赋值</span>
-      <span style="float: right;">12-31</span>
-    </a>
-  
-    
-    <a href="/2019/12/30/let-const%E5%91%BD%E4%BB%A4/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">let/const命令</span>
-      <span style="float: right;">12-30</span>
-    </a>
-  
-    
-    <a href="/2019/12/23/%E5%85%B3%E4%BA%8Ewebpack%E6%8A%BD%E7%A6%BB%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E6%80%9D%E8%80%83/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">关于webpack抽离配置文件的思考</span>
-      <span style="float: right;">12-23</span>
-    </a>
-  
-</div>
-
-
-              </div>
-            </div>
+                  <a class="hover-with-bg" href="/tags/let">let</a>
+                
+                  <a class="hover-with-bg" href="/tags/const">const</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -262,6 +318,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -302,7 +363,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "let/const命令&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
