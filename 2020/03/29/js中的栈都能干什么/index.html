@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    22 字
+                    453 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      2 分钟
                   </span>&nbsp;
                 
 
@@ -175,11 +175,136 @@
             <p>阅读《数据结构与算法.javascript描述》做的一点笔记</p>
 <a id="more"></a>
 
+<h3 id="js栈的实现"><a href="#js栈的实现" class="headerlink" title="js栈的实现"></a>js栈的实现</h3><pre><code>function Stack() {
+    this.dataSource = []
+    this.top = 0
+    this.push = push
+    this.pop = pop
+    this.len = len
+    this.peek = peek
+}
 
-<blockquote>
-<p>未完待续…</p>
+function push(element) {
+    this.dataSource[this.top++] = element
+}
+
+function pop() {
+    return this.dataSource[--this.top]
+}
+
+function peek() {
+    return this.dataSource[this.top - 1]
+}
+
+function clear() {
+    this.top = 0
+}
+
+function len() {
+    return this.top
+}</code></pre><h3 id="栈应用："><a href="#栈应用：" class="headerlink" title="栈应用："></a>栈应用：</h3><blockquote>
+<p>进制转换:</p>
 </blockquote>
-
+<pre><code>function convert(num, base) {
+    var stack = new Stack()
+    var res = &#39;&#39;;
+    do {
+        stack.push(num % base)
+        num = Math.floor(num / base)
+    } while (num &gt; 0);
+    while (stack.len() &gt; 0) {
+        res += stack.pop();
+    }
+    return res
+}
+// console.log(convert(10, 2)) // 1010</code></pre><hr>
+<blockquote>
+<p> 表达式匹配  如：2+500-(451-100  匹配缺失的括号位置</p>
+</blockquote>
+<pre><code>function format(reg) {
+    let stack = new Stack()
+    let _reg = reg.split(&quot;&quot;)
+    for (let index = 0; index &lt; _reg.length; index++) {
+        const element = _reg[index];
+        switch (element) {
+            case &quot;{&quot;:
+                stack.push(element);
+                break;
+            case &quot;[&quot;:
+                stack.push(element);
+                break;
+            case &quot;(&quot;:
+                stack.push(element);
+                break;
+            case &quot;}&quot;:
+                if (&quot;{&quot; === stack.peek()) {
+                    stack.pop()
+                } else {
+                    console.log(`第${index}位缺少${stack.peek()}的结束符`)
+                    return
+                }
+                break;
+            case &quot;]&quot;:
+                if (&quot;[&quot; === stack.peek()) {
+                    stack.pop()
+                } else {
+                    console.log(`第${index}位缺少${stack.peek()}的结束符`)
+                    return
+                }
+                break;
+            case &quot;)&quot;:
+                if (&quot;(&quot; === stack.peek()) {
+                    stack.pop()
+                } else {
+                    console.log(`第${index}位缺少${stack.peek()}的结束符`)
+                    return
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    console.log(&quot;无错误&quot;)
+}</code></pre><hr>
+<blockquote>
+<p>一个算数表达式的后缀如下：<br> op1 op2 operator<br> 设计一个函数将中缀表达式转换为后缀表达式，然后利用栈对该表达式求值</p>
+</blockquote>
+<pre><code>function change(reg) {
+    let numStack = new Stack();
+    let opStack = new Stack();
+    let _reg = reg.split(&quot;&quot;)
+    for (let index = 0; index &lt; _reg.length; index++) {
+        let element = _reg[index].trim();
+        if (element &amp;&amp; Number.isNaN(element)) {
+            // 如果是数字
+            numStack.push(element)
+        } else {
+            opStack.push(element)
+        }
+    }
+    let changedReg = &quot;&quot;
+    let op1 = op2 = op = &quot;&quot;
+    do {
+        let tmp = &quot;&quot;
+        do {
+            tmp = opStack.pop()
+            if (tmp === &quot;(&quot;) {
+                op += opStack.pop()
+            }
+        } while (opStack.len() === 0 || tmp === &quot;)&quot;);
+        op1 = numStack.pop()
+        changedReg += op1
+        op2 = numStack.pop()
+        changedReg += op2
+        changedReg += op
+    } while (numStack.len() === 0 || opStack.len() === 0);
+    console.log(changedReg)
+}
+function computed(op1, op2, operator) {
+    return eval(&quot;${op1}${operator}${op2}&quot;)
+}
+let reg = &quot;1+(2-3)*4/5&quot;
+change(reg)</code></pre>
             <hr>
           </div>
           <br>
