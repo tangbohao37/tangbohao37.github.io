@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="let arr = new Array() 到底内部发生了什么? js 中的实例是如何创建出来的？它和 Object.create() 区别是什么？">
+  <meta name="author" content="Tbh">
+  <meta name="keywords" content="">
+  
+  <title>js的new到底干了什么，如何手写一个new - 小唐的博客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="js的new到底干了什么，如何手写一个new">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-29 23:44" pubdate>
+        2021年7月29日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      673 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">js的new到底干了什么，如何手写一个new</h1>
+            
+            <div class="markdown-body">
+              <p>let arr = new Array() 到底内部发生了什么? js 中的实例是如何创建出来的？它和 Object.create() 区别是什么？</p>
+<span id="more"></span>
+
+<h3 id="原型链说起"><a href="#原型链说起" class="headerlink" title="原型链说起"></a>原型链说起</h3><blockquote>
+<p>每个实例对象（object）都有一个私有属性（称之为 <code>__proto__</code> ）指向它的<strong>构造函数的原型对象</strong>（<code>prototype</code>）。该原型对象也有一个自己的原型对象（<code>__proto__</code>），层层向上直到一个对象的原型对象为 null。根据定义，null 没有原型，并作为这个原型链中的最后一个环节。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> f = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.a = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">this</span>.b = <span class="hljs-number">2</span>;<br>&#125;;<br>f.prototype.b = <span class="hljs-number">3</span>;<br>f.prototype.c = <span class="hljs-number">4</span>;<br><br><span class="hljs-keyword">let</span> o = <span class="hljs-keyword">new</span> f();<br><br><span class="hljs-built_in">console</span>.log(o.__proto__ === f.prototype); <span class="hljs-comment">// true</span><br><span class="hljs-comment">// 私有属性 __proto__ 指向了构造函数的原型对象</span><br><br><span class="hljs-built_in">console</span>.log(o.a); <span class="hljs-comment">//  1</span><br><span class="hljs-comment">// a是o的自身属性吗？是的，该属性的值为 1</span><br><br><span class="hljs-built_in">console</span>.log(o.b);<br><span class="hljs-comment">// b是o的自身属性吗？是的，该属性的值为 2</span><br><span class="hljs-comment">// 原型上也有一个&#x27;b&#x27;属性，但是它不会被访问到。</span><br><span class="hljs-comment">// 这种情况被称为&quot;属性遮蔽 (property shadowing)&quot;</span><br><br><span class="hljs-built_in">console</span>.log(o.c); <span class="hljs-comment">// 4</span><br><span class="hljs-comment">// c是o的自身属性吗？不是，那看看它的原型上有没有</span><br><span class="hljs-comment">// c是o.[[Prototype]]的属性吗？是的，该属性的值为 4</span><br><br><span class="hljs-built_in">console</span>.log(o.d); <span class="hljs-comment">// undefined</span><br><span class="hljs-comment">// d 是 o 的自身属性吗？不是，那看看它的原型上有没有</span><br><span class="hljs-comment">// d 是 o.[[Prototype]] 的属性吗？不是，那看看它的原型上有没有</span><br><span class="hljs-comment">// o.[[Prototype]].[[Prototype]] 为 null，停止搜索</span><br><span class="hljs-comment">// 找不到 d 属性，返回 undefined</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="new-内部发生了什么？原型链如何指向？"><a href="#new-内部发生了什么？原型链如何指向？" class="headerlink" title="new 内部发生了什么？原型链如何指向？"></a>new 内部发生了什么？原型链如何指向？</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> f = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.a = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">this</span>.b = <span class="hljs-number">2</span>;<br>&#125;;<br>f.prototype.b = <span class="hljs-number">3</span>;<br>f.prototype.c = <span class="hljs-number">4</span>;<br><br><span class="hljs-keyword">let</span> o = <span class="hljs-keyword">new</span> f();<br><span class="hljs-built_in">console</span>.log(o);<br><span class="hljs-comment">// o 为新创建的空对象，它的 __proto__ 指向 f.prototype</span><br><span class="hljs-comment">// o.__proto__  === f.prototype   // true</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="new-和-Object-create-有什么区别？"><a href="#new-和-Object-create-有什么区别？" class="headerlink" title="new 和 Object.create() 有什么区别？"></a>new 和 Object.create() 有什么区别？</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> fn = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.a = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">this</span>.f = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-built_in">console</span>.log(f);<br>    &#125;;<br>&#125;;<br><br><span class="hljs-keyword">let</span> createFn = <span class="hljs-built_in">Object</span>.create(fn);<br><span class="hljs-comment">// createFn 的原型 指向 传入的 fn 的地址</span><br><span class="hljs-built_in">console</span>.log(createFn.__proto__);<br><span class="hljs-comment">// VM513:1 ƒ () &#123;</span><br><span class="hljs-comment">//     this.a = 1;</span><br><span class="hljs-comment">//     this.f = function () &#123;</span><br><span class="hljs-comment">//         console.log(f);</span><br><span class="hljs-comment">//     &#125;;</span><br><span class="hljs-comment">// &#125;</span><br><span class="hljs-built_in">console</span>.log(createFn.__proto__ === fn); <span class="hljs-comment">// true</span><br><span class="hljs-built_in">console</span>.log(createFn.constructor === fn.constructor); <span class="hljs-comment">// true</span><br><span class="hljs-built_in">console</span>.log(createFn.constructor === fn.prototype.constructor); <span class="hljs-comment">// false</span><br><br><span class="hljs-keyword">let</span> newFn = <span class="hljs-keyword">new</span> fn();<br><span class="hljs-built_in">console</span>.log(newFn.__proto__ === fn.prototype); <span class="hljs-comment">// true</span><br><span class="hljs-built_in">console</span>.log(newFn.constructor === fn.constructor); <span class="hljs-comment">// false</span><br><span class="hljs-built_in">console</span>.log(newFn.constructor === fn.prototype.constructor); <span class="hljs-comment">// true</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="对比-create-和-new-得知"><a href="#对比-create-和-new-得知" class="headerlink" title="对比 create 和 new 得知"></a>对比 create 和 new 得知</h5><ul>
+<li>  create</li>
+<li><ul>
+<li>  <code>createFn.__proto__</code> === fn</li>
+</ul>
+</li>
+<li><ul>
+<li>  <code>createFn.constructor</code> === fn.constructor</li>
+</ul>
+</li>
+<li>  new</li>
+<li><ul>
+<li>  <code>newFn.__proto__</code> === fn.prototype</li>
+</ul>
+</li>
+<li><ul>
+<li>  <code>newFn.constructor</code> === fn.prototype.constructor</li>
+</ul>
+</li>
+</ul>
+<p>也就是 create 的对象他的原型链都是指向 fn 本体的。而 new 的对象 都是指向 fn.prototype</p>
+<h3 id="fn-constructor-和-fn-prototype-constructor-有什么关系"><a href="#fn-constructor-和-fn-prototype-constructor-有什么关系" class="headerlink" title="fn.constructor 和 fn.prototype.constructor 有什么关系"></a>fn.constructor 和 fn.prototype.constructor 有什么关系</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 还是这个栗子</span><br><span class="hljs-keyword">let</span> fn = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.a = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">this</span>.f = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-built_in">console</span>.log(f);<br>    &#125;;<br>&#125;;<br><span class="hljs-built_in">console</span>.log(fn.prototype.constructor === fn); <span class="hljs-comment">// true</span><br><span class="hljs-built_in">console</span>.log(fn.constructor === <span class="hljs-built_in">Function</span>); <span class="hljs-comment">// true</span><br></code></pre></td></tr></table></figure>
+
+<p>由上可知</p>
+<ul>
+<li>  一个对象的 fn.constructor 是指向其父类本体的</li>
+<li>  一个对象的 fn.prototype.constructor 是指向本体的</li>
+</ul>
+<p>一张图就能明白：<br><img src="/images/%E5%8E%9F%E5%9E%8B%E9%93%BE.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/js%E5%8E%9F%E7%90%86/">js原理</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/js/">js</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/29/js%E4%B8%AD%E7%9A%84%E6%A0%88%E9%83%BD%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88/">
+                        <span class="hidden-mobile">js中的栈都能干什么</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
