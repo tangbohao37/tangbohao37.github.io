@@ -1,9 +1,9 @@
 ---
 title: js的new到底干了什么，如何手写一个new
 tags:
-    - 手写js
+  - 手写js
 categories:
-    - [前端, js原理]
+  - [前端, js原理]
 date: 2021-07-29 23:44:03
 ---
 
@@ -17,8 +17,8 @@ let arr = new Array() 到底内部发生了什么? js 中的实例是如何创�
 
 ```javascript
 let f = function () {
-    this.a = 1;
-    this.b = 2;
+  this.a = 1;
+  this.b = 2;
 };
 f.prototype.b = 3;
 f.prototype.c = 4;
@@ -51,8 +51,8 @@ console.log(o.d); // undefined
 
 ```javascript
 let f = function () {
-    this.a = 1;
-    this.b = 2;
+  this.a = 1;
+  this.b = 2;
 };
 f.prototype.b = 3;
 f.prototype.c = 4;
@@ -67,10 +67,10 @@ console.log(o);
 
 ```javascript
 let fn = function () {
-    this.a = 1;
-    this.f = function () {
-        console.log(f);
-    };
+  this.a = 1;
+  this.f = function () {
+    console.log(f);
+  };
 };
 
 let createFn = Object.create(fn);
@@ -94,12 +94,12 @@ console.log(newFn.constructor === fn.prototype.constructor); // true
 
 ##### 对比 create 和 new 得知
 
--   create
--   -   `createFn.__proto__` === fn
--   -   `createFn.constructor` === fn.constructor
--   new
--   -   `newFn.__proto__` === fn.prototype
--   -   `newFn.constructor` === fn.prototype.constructor
+- create
+- - `createFn.__proto__` === fn
+- - `createFn.constructor` === fn.constructor
+- new
+- - `newFn.__proto__` === fn.prototype
+- - `newFn.constructor` === fn.prototype.constructor
 
 也就是 create 的对象他的原型链都是指向 fn 本体的。而 new 的对象 都是指向 fn.prototype
 
@@ -108,10 +108,10 @@ console.log(newFn.constructor === fn.prototype.constructor); // true
 ```javascript
 // 还是这个栗子
 let fn = function () {
-    this.a = 1;
-    this.f = function () {
-        console.log(f);
-    };
+  this.a = 1;
+  this.f = function () {
+    console.log(f);
+  };
 };
 console.log(fn.prototype.constructor === fn); // true
 console.log(fn.constructor === Function); // true
@@ -119,8 +119,22 @@ console.log(fn.constructor === Function); // true
 
 由上可知
 
--   一个对象的 fn.constructor 是指向其父类本体的
--   一个对象的 fn.prototype.constructor 是指向本体的
+- 一个对象的 fn.constructor 是指向其父类本体的
+- 一个对象的 fn.prototype.constructor 是指向本体的
 
 一张图就能明白：
 ![](/images/原型链.png)
+
+### 手写一个 new 吧
+
+- new 返回一个新对象
+- 该对象是执行了 目标类 constructor 之后的结果
+- 该对象的 `__propto__` 指向 **目标类的 prototype**
+
+{% include_code lang:javascript new/index.js %}
+
+### 再手写一个 Object.create 吧
+
+- `__proto__` 指向目标对象即可
+
+{% include_code lang:javascript new/create.js %}
