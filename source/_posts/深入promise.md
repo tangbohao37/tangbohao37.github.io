@@ -1,7 +1,7 @@
 ---
 title: 深入promise
 tags:
-  - promise
+  - 手写js
 categories:
   - 前端
 date: 2021-08-02 22:36:41

@@ -13,4 +13,6 @@ categories:
 
 ### 标题
 
+{% include_code lang:javascript promise/promise1.js %}
+
 #### 副标题

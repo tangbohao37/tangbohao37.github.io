@@ -1,7 +1,7 @@
 ---
 title: js的new到底干了什么，如何手写一个new
 tags:
-    - js
+    - 手写js
 categories:
     - [前端, js原理]
 date: 2021-07-29 23:44:03
