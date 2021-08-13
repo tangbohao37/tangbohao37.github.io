@@ -1,0 +1,590 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="关于 commonjs 和 ES Module 本质的思考 本文摘自掘金">
+  <meta name="author" content="Tbh">
+  <meta name="keywords" content="">
+  
+  <title>怎么理解Commonjs和ESModule - 小唐的博客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>小唐的博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="怎么理解Commonjs和ESModule">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-08-13 00:02" pubdate>
+        2021年8月13日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">怎么理解Commonjs和ESModule</h1>
+            
+            <div class="markdown-body">
+              <p>关于 commonjs 和 ES Module 本质的思考 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6994224541312483336">本文摘自掘金</a></p>
+<span id="more"></span>
+
+<h1 id="先来几个问题"><a href="#先来几个问题" class="headerlink" title="先来几个问题"></a>先来几个问题</h1><p>1 Commonjs 和 Es Module 有什么区别 ？<br>2 Commonjs 如何解决的循环引用问题 ？<br>3 既然有了 exports，为何又出了 module.exports ? 既生瑜，何生亮 ？<br>4 require 模块查找机制 ？<br>5 Es Module 如何解决循环引用问题 ？<br>6 exports = {} 这种写法为何无效 ？<br>7 关于 import() 的动态引入 ？<br>8 Es Module 如何改变模块下的私有变量 ？</p>
+<h1 id="commonjs-说起"><a href="#commonjs-说起" class="headerlink" title="commonjs 说起"></a>commonjs 说起</h1><h2 id="commonjs-使用"><a href="#commonjs-使用" class="headerlink" title="commonjs 使用"></a>commonjs 使用</h2><p>在使用 规范下，有几个显著的特点。</p>
+<ul>
+<li>在 commonjs 中每一个 js 文件都是一个单独的模块，我们可以称之为 module；</li>
+<li>该模块中，包含 CommonJS 规范的核心变量: exports、module.exports、require；</li>
+<li>exports 和 module.exports 可以负责对模块中的内容进行导出；</li>
+<li>require 函数可以帮助我们导入其他模块（自定义模块、系统模块、第三方库模块）中的内容；</li>
+</ul>
+<h3 id="先看看如何使用的"><a href="#先看看如何使用的" class="headerlink" title="先看看如何使用的"></a>先看看如何使用的</h3><ul>
+<li>导出</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> name = <span class="hljs-string">&#x27;小唐同学&#x27;</span>;<br><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sayName</span>(<span class="hljs-params"></span>) </span>&#123;<br>  <span class="hljs-keyword">return</span> name;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>导入</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> sayName = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./hello.js&#x27;</span>);<br><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">say</span>(<span class="hljs-params"></span>) </span>&#123;<br>  <span class="hljs-keyword">return</span> &#123;<br>    <span class="hljs-attr">name</span>: sayName(),<br>    <span class="hljs-attr">author</span>: <span class="hljs-string">&#x27;我不是外星人&#x27;</span>,<br>  &#125;;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>思考 2 个问题：</p>
+<ul>
+<li>commonjs 如何解决变量污染的</li>
+<li>module.exports exports require 三者如何工作的？</li>
+</ul>
+<h2 id="commonjs-实现原理"><a href="#commonjs-实现原理" class="headerlink" title="commonjs 实现原理"></a>commonjs 实现原理</h2><p>已知条件：每个模块上存在 module , exports , require , <code>__filename</code> ,<code>___dirname</code> ,虽然我们没有对其定义但可以直接使用</p>
+<ul>
+<li>module :用于记录模块信息</li>
+<li>exports : 当前模块导出的属性</li>
+<li>require : 引入模块</li>
+<li><code>__filename</code> : 当前模块文件的绝对路径 /a/b/c.js</li>
+<li><code>__dirname</code> : 当前模块的目录路径 /a/b</li>
+</ul>
+<p>在编译的过程中，实际 Commonjs 对 js 的代码块进行了首尾包装， 我们以上述的代码为例子，它被包装之后的样子如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript">(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"><span class="hljs-built_in">exports</span>, <span class="hljs-built_in">require</span>, <span class="hljs-built_in">module</span>, __filename, __dirname</span>) </span>&#123;<br>  <span class="hljs-keyword">let</span> name = <span class="hljs-string">&#x27;小唐同学&#x27;</span>;<br>  <span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sayName</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> name;<br>  &#125;;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>在 Commonjs 规范下模块中，会形成一个包装函数，我们写的代码将作为包装函数的执行上下文，使用的 require ，exports ，module 本质上是通过形参的方式传递到包装函数中的。</p>
+<p>大概是这样:</p>
+<figure class="highlight javascript"><figcaption><span>common.js</span><a href="/code/commonjs和ESModule.js/common.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 包装函数</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrapper</span>(<span class="hljs-params">script</span>) </span>{<br>  <span class="hljs-keyword">return</span> <span class="hljs-string">`(function (exports, require, module, __filename, __dirname) {</span><br><span class="hljs-string">    <span class="hljs-subst">${script}</span></span><br><span class="hljs-string">  })`</span>;<br>}<br><br><span class="hljs-comment">// 使用wrapper</span><br><span class="hljs-keyword">const</span> fun = wrapper(<span class="hljs-string">`</span><br><span class="hljs-string">  let name = &#x27;小唐同学&#x27;;</span><br><span class="hljs-string">  console.log(name)</span><br><span class="hljs-string">  module.exports = function sayName() {</span><br><span class="hljs-string">    return name;</span><br><span class="hljs-string">  };</span><br><span class="hljs-string">`</span>);<br><br><span class="hljs-built_in">console</span>.log(fun); <span class="hljs-comment">// fun 这个时候返回的是一个字符串  还不能执行</span><br><br><span class="hljs-comment">// 大概是这个样子</span><br><span class="hljs-comment">// runInThisContext(fun)(module.exports, require, module, __filename, __dirname);</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">runInThisContext</span>(<span class="hljs-params">fun</span>) </span>{<br>  <span class="hljs-built_in">eval</span>(fun);<br>}<br></code></pre></td></tr></table></figure>
+
+<h2 id="commonjs-文件加载流程"><a href="#commonjs-文件加载流程" class="headerlink" title="commonjs 文件加载流程"></a>commonjs 文件加载流程</h2><p><img src="/images/require%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B.webp" srcset="/img/loading.gif" lazyload alt="缓存执行流程"></p>
+<h3 id="文件引入流程与处理"><a href="#文件引入流程与处理" class="headerlink" title="文件引入流程与处理"></a>文件引入流程与处理</h3><p>commonjs 模块同步加载并执行文件模块, 在执行阶段分析模块依赖, 采用深度优先遍历，执行顺序为 父-&gt; 子-&gt; 父</p>
+<figure class="highlight javascript"><figcaption><span>a.js</span><a href="/code/commonjs和ESModule.js/a.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// const getMsg = require(&#x27;./b&#x27;);</span><br><br><span class="hljs-comment">// console.log(&#x27;加载a 文件&#x27;);</span><br><br><span class="hljs-comment">// exports.say = function () {</span><br><span class="hljs-comment">//   const msg = getMsg();</span><br><span class="hljs-comment">//   console.log(msg);</span><br><span class="hljs-comment">// };</span><br><br><span class="hljs-built_in">exports</span> = {<br>  <span class="hljs-attr">a</span>: <span class="hljs-number">123</span>,<br>};<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><figcaption><span>b.js</span><a href="/code/commonjs和ESModule.js/b.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> say = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./a&#x27;</span>);<br><span class="hljs-keyword">const</span> object = {<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;小唐同学&#x27;</span>,<br>};<br><br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;b 模块中打印 say&#x27;</span>, say); <span class="hljs-comment">// 这个时候由于 a.js 虽然打上了 cache 标记  还没有加载完成 loaded =false 所以这个时候是 {}</span><br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;加载 b 文件&#x27;</span>);<br><br><span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;异步中的&#x27;</span>, say);<br>}, <span class="hljs-number">0</span>);<br><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-keyword">return</span> object;<br>};<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><figcaption><span>main.js</span><a href="/code/commonjs和ESModule.js/main.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> a = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./a&#x27;</span>);<br><span class="hljs-keyword">const</span> b = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./b&#x27;</span>);<br><br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;main 执行&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>node main.js 执行结果：</p>
+<p>(结果)[/images/main 执行结果.png]</p>
+<p>根据结果可以得出一下结论</p>
+<ul>
+<li><code>main.js</code> 和 <code>a.js</code> 都引入了 <code>b.js</code> 但是 <code>b.js</code> 只执行了一次</li>
+<li><code>a.js</code> 和 <code>b.js</code> 模块相互引用, 但是<strong>没有</strong>出现循环引用</li>
+<li>执行顺序 父-&gt; 子 -&gt; 父</li>
+</ul>
+<p>问题来了。 commonjs 如何实现以上效果的</p>
+<h2 id="require-加载原理"><a href="#require-加载原理" class="headerlink" title="require 加载原理"></a>require 加载原理</h2><p>需要明白 2 个概念 module 和 Module</p>
+<p>module: 在 node 中 每个 js 文件 都是一个 module , module 上保存了 exports 等信息之外还有一个 loaded 表示该模块是否被加载</p>
+<p>Module: node 整个系统运行之后, 会用 Module 缓存每个模块的加载信息</p>
+<figure class="highlight javascript"><figcaption><span>require.js</span><a href="/code/commonjs和ESModule.js/require.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">require</span>(<span class="hljs-params">id</span>) </span>{<br>  <span class="hljs-comment">// 缓存已加载的模块</span><br>  <span class="hljs-keyword">const</span> cache = Module._cache[id];<br><br>  <span class="hljs-comment">//  已经加载过 则直接取走 exports</span><br>  <span class="hljs-keyword">if</span> (cache) {<br>    <span class="hljs-keyword">return</span> cache.exports;<br>  }<br><br>  <span class="hljs-comment">// 创建 module</span><br>  <span class="hljs-keyword">const</span> <span class="hljs-built_in">module</span> = { <span class="hljs-attr">exports</span>: {}, <span class="hljs-attr">loaded</span>: <span class="hljs-literal">false</span> };<br><br>  Module._cache[id] = <span class="hljs-built_in">module</span>;<br><br>  <span class="hljs-comment">// 加载文件</span><br>  runInThisContext(wrapper(<span class="hljs-string">&#x27;module.exports = 123&#x27;</span>))(<br>    <span class="hljs-built_in">module</span>.exports,<br>    <span class="hljs-built_in">require</span>,<br>    <span class="hljs-built_in">module</span>,<br>    __filename,<br>    __dirname,<br>  );<br><br>  <span class="hljs-comment">// 加载完成标记</span><br>  <span class="hljs-built_in">module</span>.loaded = <span class="hljs-literal">true</span>;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">module</span>.exports;<br>}<br></code></pre></td></tr></table></figure>
+
+<p>require 大致流程：</p>
+<ul>
+<li><p>require 会接收一个参数——文件标识符，然后分析定位文件，分析过程我们上述已经讲到了，接下来会从 Module 上查找有没有缓存，如果有缓存，那么直接返回缓存的内容。</p>
+</li>
+<li><p>如果没有缓存，会创建一个 module 对象，缓存到 Module 上，然后执行文件，<strong>加载完文件</strong>，将 loaded 属性<strong>设置为 true</strong> ，然后返回 module.exports 对象。借此完成模块加载流程。</p>
+</li>
+<li><p>模块导出就是 return 这个变量的其实跟 a = b 赋值一样， 基本类型导出的是值， 引用类型导出的是引用地址。</p>
+</li>
+<li><p>exports 和 module.exports 持有相同引用，因为最后导出的是 module.exports， 所以对 exports 进行赋值会导致 exports 操作的不再是 module.exports 的引用。</p>
+</li>
+</ul>
+<h3 id="require-如何避免重复加载的"><a href="#require-如何避免重复加载的" class="headerlink" title="require 如何避免重复加载的"></a>require 如何避免重复加载的</h3><p>从上面可以了解到。由于有缓存的缘故，对于第二次 require 一个模块 会直接读取缓存的 module 无需再次执行</p>
+<h3 id="require-避免循环引用"><a href="#require-避免循环引用" class="headerlink" title="require 避免循环引用"></a>require 避免循环引用</h3><p>同样是依靠缓存来解决的这个问题 , 已经加载了所以不会再次执行.<br>但有一点需要注意。</p>
+<blockquote>
+<p>由于 a.js 虽然打上了 cache 标记 还没有加载完成 (loaded =false) 所以这个时候是 {} 空对象</p>
+</blockquote>
+<p>(结果)[/images/mian 异步执行结果.png]</p>
+<h3 id="exports-和-module-exports"><a href="#exports-和-module-exports" class="headerlink" title="exports 和 module.exports"></a>exports 和 module.exports</h3><p>系统分析完 require ，接下来我们分析一下，exports 和 module.exports，首先看一下两个的用法。</p>
+<h4 id="exports"><a href="#exports" class="headerlink" title="exports"></a>exports</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">exports</span>.name = <span class="hljs-string">`小唐`</span>;<br><span class="hljs-built_in">exports</span>.say = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">666</span>);<br>&#125;;<br><br><span class="hljs-comment">// 引用</span><br><span class="hljs-keyword">const</span> a = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./a&#x27;</span>);<br><span class="hljs-built_in">console</span>.log(a);<br></code></pre></td></tr></table></figure>
+
+<p>exports 就是传入到当前模块内的一个对象，本质上就是 module.exports。</p>
+<p>问题：为什么 exports={} 直接赋值一个对象就不可以呢？ 比如我们将如上 a.js 修改一下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">exports</span> = &#123;<br>  <span class="hljs-attr">a</span>: <span class="hljs-number">123</span>,<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>(结果)[/images/export 使用.png]</p>
+<p>理想情况下是通过 exports = {} 直接赋值，不需要在 exports.a = xxx 每一个属性，但是如上我们看到了这种方式是无效的。为什么会这样？实际这个是 js 本身的特性决定的。</p>
+<blockquote>
+<p>通过上述讲解都知道 exports ， module 和 require 作为形参的方式传入到 js 模块中。我们直接 exports = {} 修改 exports ，等于重新赋值了形参，那么会重新赋值一份，但是不会在引用原来的形参()。举一个简单的例子</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wrap</span>(<span class="hljs-params">myExports</span>) </span>&#123;<br>  myExports = &#123;<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;我不是外星人&#x27;</span>,<br>  &#125;;<br>&#125;<br><br><span class="hljs-keyword">let</span> myExports = &#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;alien&#x27;</span>,<br>&#125;;<br>wrap(myExports);<br><span class="hljs-built_in">console</span>.log(myExports); <span class="hljs-comment">// &#123;name : &#x27;alien&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们期望修改 myExports ，但是没有任何作用。<br>假设 wrap 就是 Commonjs 规范下的包装函数，我们的 js 代码就是包装函数内部的内容。当我们把 myExports 对象传进去，但是直接赋值 myExports = { name:’我不是外星人’ } 没有任何作用，相等于内部重新声明一份 myExports 而和外界的 myExports 断绝了关系。所以解释了为什么不能 exports={…} 直接赋值。</p>
+</blockquote>
+<h4 id="module-exports"><a href="#module-exports" class="headerlink" title="module.exports"></a>module.exports</h4><p>module.exports 本质上就是 exports ，我们用 module.exports 来实现如上的导出。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">module</span>.exports = &#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;《React进阶实践指南》&#x27;</span>,<br>  <span class="hljs-attr">author</span>: <span class="hljs-string">&#x27;我不是外星人&#x27;</span>,<br>  <span class="hljs-function"><span class="hljs-title">say</span>(<span class="hljs-params"></span>)</span> &#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-number">666</span>);<br>  &#125;,<br>&#125;;<br><br><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>  <span class="hljs-comment">// ...</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>从上述 require 原理实现中，我们知道了 exports 和 module.exports 持有相同引用，因为最后导出的是 module.exports 。那么这就说明在一个文件中，我们最好选择 exports 和 module.exports 两者之一，如果两者同时存在，很可能会造成覆盖的情况发生。比如如下情况：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">exports</span>.name = <span class="hljs-string">&#x27;alien&#x27;</span>; <span class="hljs-comment">// 此时 exports.name 是无效的</span><br><span class="hljs-built_in">module</span>.exports = &#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;《React进阶实践指南》&#x27;</span>,<br>  <span class="hljs-attr">author</span>: <span class="hljs-string">&#x27;我不是外星人&#x27;</span>,<br>  <span class="hljs-function"><span class="hljs-title">say</span>(<span class="hljs-params"></span>)</span> &#123;<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-number">666</span>);<br>  &#125;,<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q &amp; A"></a>Q &amp; A</h3><p>1 那么问题来了？既然有了 exports，为何又出了 module.exports?</p>
+<p>答：如果我们不想在 commonjs 中导出对象，而是只导出一个类或者一个函数再或者其他属性的情况，那么 module.exports 就更方便了，如上我们知道 exports 会被初始化成一个对象，也就是我们只能在对象上绑定属性，但是我们可以通过 module.exports 自定义导出 除去对象外的其他类型元素。</p>
+<p>2 与 exports 相比，module.exports 有什么缺陷 ？</p>
+<p>答：module.exports 当导出一些函数等非对象属性的时候，也有一些风险，就比如循环引用的情况下。对象会保留相同的内存地址，就算一些属性是后绑定的，也能间接通过异步形式访问到。但是如果 module.exports 为一个非对象其他属性类型，在循环引用的时候，就容易造成属性丢失的情况发生了。</p>
+<h1 id="ES-Module"><a href="#ES-Module" class="headerlink" title="ES Module"></a>ES Module</h1><p>Nodejs 借鉴了 Commonjs 实现了模块化 ，从 ES6 开始， JavaScript 才真正意义上有自己的模块化规范，</p>
+<p>Es Module 的产生有很多优势，比如:</p>
+<ul>
+<li>借助 Es Module 的静态导入导出的优势，实现了 tree shaking。</li>
+<li>Es Module 还可以 import() 懒加载方式实现代码分割。</li>
+</ul>
+<p>具体用法就不细说了</p>
+<h2 id="ES-Module-特性"><a href="#ES-Module-特性" class="headerlink" title="ES Module 特性"></a>ES Module 特性</h2><ol>
+<li>静态语法</li>
+</ol>
+<p>ES6 module 的引入和导出是静态的，import 会自动提升到代码的顶层 ，import , export 不能放在块级作用域或条件语句中。</p>
+<ol start="2">
+<li>执行特性</li>
+</ol>
+<p>ES6 module 和 Common.js 一样，对于相同的 js 文件，会保存静态属性。</p>
+<p>但是与 Common.js 不同的是 ，CommonJS 模块同步加载并执行模块文件，ES6 模块提前加载并执行模块文件，ES6 模块在预处理阶段分析模块依赖，在执行阶段执行模块，两个阶段都采用深度优先遍历，执行顺序是 <strong>子 -&gt; 父</strong>（入口文件最后执行）。</p>
+<p>为了验证这一点，看一下如下 demo。</p>
+<figure class="highlight javascript"><figcaption><span>main.js</span><a href="/code/commonjs和ESModule.js/es/main.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;main.js开始执行&#x27;</span>);<br><span class="hljs-keyword">import</span> say <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./a&#x27;</span>;<br><span class="hljs-keyword">import</span> say1 <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./b&#x27;</span>;<br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;main.js执行完毕&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><figcaption><span>a.js</span><a href="/code/commonjs和ESModule.js/es/a.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> b <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./b&#x27;</span><br><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;a模块加载&#x27;</span>)<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">say</span> (<span class="hljs-params"></span>)</span>{<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;hello , world&#x27;</span>)<br>}<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><figcaption><span>b.js</span><a href="/code/commonjs和ESModule.js/es/b.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;b模块加载&#x27;</span>);<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sayhello</span>(<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;hello,world&#x27;</span>);<br>}<br></code></pre></td></tr></table></figure>
+
+<p>结果：<br><img src="/images/es%E6%89%A7%E8%A1%8C.webp" srcset="/img/loading.gif" lazyload alt="main.js执行结果"></p>
+<ol start="3">
+<li>导出绑定</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> num = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> addNumber = <span class="hljs-function">() =&gt;</span> &#123;<br>  num++;<br>&#125;;<br><br><span class="hljs-keyword">import</span> &#123; num, addNumber &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./a&#x27;</span>;<br>num = <span class="hljs-number">2</span>; <span class="hljs-comment">// 直接修改则报错</span><br></code></pre></td></tr></table></figure>
+
+<p>接下来对 import 属性作出总结：</p>
+<ul>
+<li>使用 import 被导入的模块运行在严格模式下。</li>
+<li>使用 import 被导入的变量是只读的，可以理解默认为 const 装饰，无法被赋值</li>
+<li>使用 import 被导入的变量是与原变量绑定/引用的，可以理解为 import 导入的变量无论是否为基本类型都是引用传递。</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="commonjs："><a href="#commonjs：" class="headerlink" title="commonjs："></a>commonjs：</h2><ul>
+<li>CommonJS 模块由 JS 运行时实现。</li>
+<li>CommonJs 是单个值导出，本质上导出的就是 exports 属性。</li>
+<li>CommonJS 是可以动态加载的，对每一个加载都存在缓存，可以有效的解决循环引用问题。</li>
+<li>CommonJS 模块同步加载并执行模块文件。</li>
+</ul>
+<h2 id="ES-Module-1"><a href="#ES-Module-1" class="headerlink" title="ES Module"></a>ES Module</h2><ul>
+<li>ES6 Module 静态的，不能放在块级作用域内，代码发生在编译时。</li>
+<li>ES6 Module 的值是动态绑定的，可以通过导出方法修改，可以直接访问修改结果。</li>
+<li>ES6 Module 可以导出多个属性和方法，可以单个导入导出，混合导入导出。</li>
+<li>ES6 模块提前加载并执行模块文件，</li>
+<li>ES6 Module 导入模块在严格模式下。</li>
+<li>ES6 Module 的特性可以很容易实现 Tree Shaking 和 Code Splitting。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/js/">js</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/11/http%E7%BC%93%E5%AD%98/">
+                        <span class="hidden-mobile">http缓存</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
