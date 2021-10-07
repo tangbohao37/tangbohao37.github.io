@@ -1,0 +1,33 @@
+---
+title: esbuild为什么这么快
+tags:
+  - 标签
+categories:
+  - 前端
+date: 2021-08-15 16:31:46
+---
+
+esbuild
+
+<!-- more -->
+
+# 为什么这么快？
+
+1. 使用 go 编写的, 可以编译为本地代码
+
+- 在 esbuild 忙于解析 JavaScript 时，node 忙于解析打包程序自己的 JavaScript。
+- go 可以在线程间 共享内存 而 js 必须在线程间序列化数据
+
+2. go 用了大量并行操作
+
+3. 代码都是自己写的没有第三方依赖
+
+- 减少了数据结构转换带来的性能消耗
+
+4. 内存利用率高
+
+- 对 ast 遍历 只用了 3 次 (此法分析/解析/作用域设置/声明符号, )
+
+<!-- {% include_code lang:javascript promise/promise1.js %} -->
+
+<!-- TODO: 未完待续 -->
