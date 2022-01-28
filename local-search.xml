@@ -4,6 +4,106 @@
   
   
   <entry>
+    <title>防抖和节流</title>
+    <link href="/2021/10/14/%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/"/>
+    <url>/2021/10/14/%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/</url>
+    
+    <content type="html"><![CDATA[<p>手写一个防抖/节流 函数</p><span id="more"></span><h3 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h3><figure class="highlight javascript"><figcaption><span>debounce.js</span><a href="/code/debounce和throttle/debounce.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 防抖</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debounce</span>(<span class="hljs-params">fn, wait</span>) </span>{<br>  <span class="hljs-keyword">let</span> timer = <span class="hljs-literal">null</span>;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    <span class="hljs-keyword">let</span> _this = <span class="hljs-built_in">this</span>;<br>    <span class="hljs-keyword">if</span> (timer) {<br>      <span class="hljs-built_in">clearTimeout</span>(timer);<br>    }<br>    timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>      fn.apply(_this, <span class="hljs-built_in">arguments</span>);<br>      timer = <span class="hljs-literal">null</span>;<br>    }, wait);<br>  };<br>}<br><br><br><br><span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">&#x27;mousemove&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  fn();<br>});<br></code></pre></td></tr></table></figure><h3 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h3><figure class="highlight javascript"><figcaption><span>throttle.js</span><a href="/code/debounce和throttle/throttle.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 节流</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">throttle</span>(<span class="hljs-params">fn, wait</span>) </span>{<br>  <span class="hljs-keyword">let</span> timer = <span class="hljs-number">0</span>; <span class="hljs-comment">// 初始值为0 则：首次立即执行   Infinity 则首次不立即执行</span><br><br>  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    <span class="hljs-keyword">let</span> _this = <span class="hljs-built_in">this</span>;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Date</span>.now() - timer &gt;= wait) {<br>      fn.apply(_this, <span class="hljs-built_in">arguments</span>);<br>    }<br>    timer = <span class="hljs-built_in">Date</span>.now();<br>  };<br>}<br><br><span class="hljs-keyword">const</span> fn = throttle(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">111</span>);<br>}, <span class="hljs-number">1000</span>);<br><br><span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">&#x27;mousemove&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  fn();<br>});<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>手写js</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>html中的defer和async</title>
+    <link href="/2021/10/14/html%E4%B8%AD%E7%9A%84defer%E5%92%8Casync/"/>
+    <url>/2021/10/14/html%E4%B8%AD%E7%9A%84defer%E5%92%8Casync/</url>
+    
+    <content type="html"><![CDATA[<p>defer 和 async 的区别是什么？</p><span id="more"></span><h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p>defer 和 async 都是 script 标签的属性 其实 script 定义的属性除了 src 或者 type 并不只是这两个 还有 charset / crossorigin /integrity 等等。只是面试喜欢问 defer 和 async 的区别</p><ol><li><p>不使用时：<br>没有 defer 或 async，浏览器会立即加载并执行指定的脚本，“立即”指的是在渲染该 script 标签之下的文档元素之前，也就是说不等待后续载入的文档元素，读到就加载并执行。</p><ul><li>总结下就是 读到这里就执行这个脚本。并阻塞后续文档的加载。 (所以我们喜欢把 script 放在文档的末尾)</li></ul></li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;script.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure><ol start="2"><li><p>async<br>有 async 加载和渲染后续文档元素的过程将和 script.js 的加载与执行并行进行（异步）</p><ul><li>总结下就是 文档 和 script 的加载同步执行</li></ul></li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">async</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;script.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure><ol start="3"><li><p>defer<br>有 defer，加载后续文档元素的过程将和 script.js 的加载并行进行（异步），但是 script.js 的执行要在所有元素解析完成之后, DOMContentLoaded 事件触发之前完成</p><ul><li>总结下就是加载过程和 async 一样都是同步加载。 但不一样的是 script 不执行。 等 DOMContentLoaded 之后再执行</li></ul></li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">defer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;myscript.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure><p>一图胜千言:<br>![defer 和 async](/images/defer 和 async.jpeg)</p><h3 id="总结使用"><a href="#总结使用" class="headerlink" title="总结使用:"></a>总结使用:</h3><ol><li>defer 和 async 在网络读取（下载）这块儿是一样的，都是异步的（相较于 HTML 解析）</li><li>它俩的差别在于脚本下载完之后何时执行，显然 defer 是最接近我们对于应用脚本加载和执行的要求的</li><li>关于 defer，此图未尽之处在于它是按照加载顺序执行脚本的，这一点要善加利用</li><li>async 则是一个乱序执行的主，反正对它来说脚本的加载和执行是紧紧挨着的，所以不管你声明的顺序如何，只要它加载完了就会立刻执行</li><li>仔细想想，async 对于应用脚本的用处不大，因为它完全不考虑依赖（哪怕是最低级的顺序执行），不过它对于那些可以不依赖任何脚本或不被任何脚本依赖的脚本来说却是非常合适的，最典型的例子：Google Analytics</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>标签</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>认识@import</title>
+    <link href="/2021/10/14/%E8%AE%A4%E8%AF%86-import/"/>
+    <url>/2021/10/14/%E8%AE%A4%E8%AF%86-import/</url>
+    
+    <content type="html"><![CDATA[<p>了解 <code>@import</code> 么？ 和 <code>&lt;link&gt;</code> 有何不同?</p><span id="more"></span><h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ol><li>用法: <code>@import url(&#39;a.css&#39;);</code> 或者 <code>@import &#39;a.css&#39;;</code> 且必须定义在最顶部</li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> /&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;a.css&#x27;</span>);</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure><h3 id="加载顺序"><a href="#加载顺序" class="headerlink" title="加载顺序"></a>加载顺序</h3><p>加载页面时，link 标签引入的 CSS 被同时加载；</p><p><code>@import</code> 引入的 CSS 会等到页面全部被下载完再被加载。(因为 <code>@import</code> 是有顺序的语义的)</p><ol><li><code>@import</code> &amp; <code>@import</code></li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html">// 如果一直使用@import，那么就没有什么性能问题 两个样式文件将同时并行下载<br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;a.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;b.css&#x27;</span>);</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure><ol start="2"><li>link &amp; <code>@import</code></li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html">//会导致样式表文件逐个加载，并行下载资源是加速页面的一个关键,在IE中link混合@import会破坏样式并行下载<br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;b.css&#x27;</span>);</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure><ol start="3"><li>link 嵌套 <code>@import</code></li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html">//这种方式同样阻止并行加载代码，但是这次是对于所有的浏览器,其实这个应该不会感到奇怪吧，简单的想一下就能理解了。浏览器必须先下载a.css，并分析它，这个时候，浏览器发现了@import规则，然后才会开始加载b.css.<br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br>//在a.css中: @import url(&#x27;b.css&#x27;);<br></code></pre></td></tr></table></figure><ol start="4"><li>link 阻断 @import</li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html">//在下载a.css完成之前，IE不会开始下载b.css。但是在其它所有的浏览器中，这种情况不会发生<br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;proxy.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br>//proxy.css的代码: @import url(&#x27;b.css&#x27;);<br></code></pre></td></tr></table></figure><ol start="5"><li><p>多个 <code>@import</code></p><p>IE 中使用<code>@import</code> 会引起<strong>资源</strong>被按照一个不同于预期的顺序下载,在 IE 中，如果脚本中包含的代码，来自样式表文件中应用的样式(比如 getElementsByClassName)， 那么就将可能会发生意外的结果，因为脚本先于样式被加载，尽管开发人员将其置于代码的最后面。</p></li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs html">// @import在IE中引发资源文件的下载顺序被打乱<br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;a.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;b.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;c.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;d.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;e.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;f.css&#x27;</span>);</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;one.js&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure><ol start="6"><li>link &amp; link<br>使用 LINK 来引入样式更简单和安全,使用 LINK 可确保<strong>样式</strong>在所有浏览器里面都能被并行下载,同样能保证<strong>资源</strong>按照开发人员制定的顺序下载。</li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;b.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>css</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>事件冒泡和捕获</title>
+    <link href="/2021/10/14/%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/"/>
+    <url>/2021/10/14/%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/</url>
+    
+    <content type="html"><![CDATA[<p>什么是事件冒泡？如何阻止？什么是事件捕获？如何阻止？</p><span id="more"></span><h3 id="冒泡-捕获"><a href="#冒泡-捕获" class="headerlink" title="冒泡/捕获"></a>冒泡/捕获</h3><p>在前端 dom 事件的世界中 除了 focus / onblur / scroll 几乎所有的事件默认都是冒泡的（因为 addEventListener 第三个参数默认为 false）。</p><p>在 dom 事件流里所有的事件都是经过先捕获再冒泡并在<strong>冒泡阶段执行回调</strong>。</p><ul><li><p>阻止冒泡: <code>e.stopPropagation()</code> 或者 <code>e.cancelBubble = true</code></p></li><li><p>捕获阶段执行: <code>addEventListener</code> 第三个参数为 true 即可。 (注意: 事件捕获后还是会继续向下传递的,只是在传递到 target Dom 之后不会再冒泡阶段执行)</p></li><li><p>捕获阶段执行并阻止向下传递: 将上述 2 个方法同时使用即可。 即： 在目标事件上加 <code>e.stopPropagation()</code> 并且 <code>addEventListener</code> 第三个参数为 true</p></li></ul><h3 id="stopPropagation-stopImmediatePropagation"><a href="#stopPropagation-stopImmediatePropagation" class="headerlink" title="stopPropagation() / stopImmediatePropagation()"></a>stopPropagation() / stopImmediatePropagation()</h3><p><code>e.stopPropagation</code> 和 <code>e.stopImmediatePropagation</code> 都有阻止冒泡的功能。 但是 <code>stopImmediatePropagation</code> 做得更彻底。它不光阻止事件冒泡，并将当前事件<strong>后续绑定的其他函数一并阻止</strong>。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>事件流</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>设计模式-命令模式</title>
     <link href="/2021/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/"/>
     <url>/2021/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</url>

@@ -14,13 +14,29 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="什么是事件冒泡？如何阻止？什么是事件捕获？如何阻止？">
   <meta name="author" content="Tbh">
   <meta name="keywords" content="">
   
-  <title>归档 - 小唐的博客</title>
+  <title>事件冒泡和捕获 - 小唐的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
 
 
 
@@ -48,7 +64,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -147,9 +163,46 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
+            <span class="h2" id="subtitle" title="事件冒泡和捕获">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-14 11:52" pubdate>
+        2021年10月14日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      259 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      2
+       分钟
+    </span>
+  
+
+  
+  
+</div>
 
             
           </div>
@@ -162,40 +215,108 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 23 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/03/29/js%E4%B8%AD%E7%9A%84%E6%A0%88%E9%83%BD%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">js中的栈都能干什么</span>
-      <time style="float: right;">03-29</time>
-    </a>
-  
-</div>
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">事件冒泡和捕获</h1>
+            
+            <div class="markdown-body">
+              <p>什么是事件冒泡？如何阻止？什么是事件捕获？如何阻止？</p>
+<span id="more"></span>
 
+<h3 id="冒泡-捕获"><a href="#冒泡-捕获" class="headerlink" title="冒泡/捕获"></a>冒泡/捕获</h3><p>在前端 dom 事件的世界中 除了 focus / onblur / scroll 几乎所有的事件默认都是冒泡的（因为 addEventListener 第三个参数默认为 false）。</p>
+<p>在 dom 事件流里所有的事件都是经过先捕获再冒泡并在<strong>冒泡阶段执行回调</strong>。</p>
+<ul>
+<li><p>阻止冒泡: <code>e.stopPropagation()</code> 或者 <code>e.cancelBubble = true</code></p>
+</li>
+<li><p>捕获阶段执行: <code>addEventListener</code> 第三个参数为 true 即可。 (注意: 事件捕获后还是会继续向下传递的,只是在传递到 target Dom 之后不会再冒泡阶段执行)</p>
+</li>
+<li><p>捕获阶段执行并阻止向下传递: 将上述 2 个方法同时使用即可。 即： 在目标事件上加 <code>e.stopPropagation()</code> 并且 <code>addEventListener</code> 第三个参数为 true</p>
+</li>
+</ul>
+<h3 id="stopPropagation-stopImmediatePropagation"><a href="#stopPropagation-stopImmediatePropagation" class="headerlink" title="stopPropagation() / stopImmediatePropagation()"></a>stopPropagation() / stopImmediatePropagation()</h3><p><code>e.stopPropagation</code> 和 <code>e.stopImmediatePropagation</code> 都有阻止冒泡的功能。 但是 <code>stopImmediatePropagation</code> 做得更彻底。它不光阻止事件冒泡，并将当前事件<strong>后续绑定的其他函数一并阻止</strong>。</p>
 
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%BA%8B%E4%BB%B6%E6%B5%81/">事件流</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/14/%E8%AE%A4%E8%AF%86-import/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">认识@import</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">
+                        <span class="hidden-mobile">设计模式-命令模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -275,9 +396,15 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
 
 
 

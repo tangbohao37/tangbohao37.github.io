@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="了解 @import 么？ 和 &amp;lt;link&amp;gt; 有何不同?">
   <meta name="author" content="Tbh">
   <meta name="keywords" content="">
   
-  <title>设计模式-命令模式 - 小唐的博客</title>
+  <title>认识@import - 小唐的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="设计模式-命令模式">
+            <span class="h2" id="subtitle" title="认识@import">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-10-12 22:54" pubdate>
-        2021年10月12日 晚上
+      <time datetime="2021-10-14 12:39" pubdate>
+        2021年10月14日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      408 字
+      720 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5
+      10
        分钟
     </span>
   
@@ -225,15 +225,50 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">设计模式-命令模式</h1>
+            <h1 style="display: none">认识@import</h1>
             
             <div class="markdown-body">
-              <p>命令模式中的命令（command）指的是一个执行某些特定事情的指令。</p>
-<p>命令模式最常见的应用场景是：有时候需要向某些对象发送请求，但是并不知道请求的接收者是谁，也不知道被请求的操作是什么。此时希望用一种松耦合的方式来设计程序，使得请求发送者和请求接收者能够消除彼此之间的耦合关系。</p>
-<h3 id="oop-思想的命令模式"><a href="#oop-思想的命令模式" class="headerlink" title="oop 思想的命令模式"></a>oop 思想的命令模式</h3><figure class="highlight javascript"><figcaption><span>command-pattern.js</span><a href="/code/design-pattern/command-pattern.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// dom 绑定 click 事件场景</span><br><span class="hljs-comment">// 绑定命令函数</span><br><span class="hljs-keyword">var</span> setCommand = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">button, command</span>) </span>{<br>  button.onclick = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    command.execute();<br>  };<br>};<br><br><span class="hljs-comment">// 封装命令方法</span><br><span class="hljs-keyword">var</span> MenuBar = {<br>  <span class="hljs-attr">refresh</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;刷新&#x27;</span>);<br>  },<br>};<br><br><span class="hljs-comment">// 封装命令类</span><br><span class="hljs-keyword">var</span> refreshCommand = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">receiver</span>) </span>{<br>  <span class="hljs-built_in">this</span>.receiver = receiver;<br>};<br>refreshCommand.prototype.execute = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">this</span>.receiver.refresh();<br>};<br><br><span class="hljs-comment">// 创建命令对象</span><br><span class="hljs-keyword">var</span> refresh = <span class="hljs-keyword">new</span> refreshCommand(MenuBar);<br><br><span class="hljs-keyword">const</span> btn = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">&#x27;button&#x27;</span>)[<span class="hljs-number">0</span>];<br>setCommand(btn, refresh);<br></code></pre></td></tr></table></figure>
+              <p>了解 <code>@import</code> 么？ 和 <code>&lt;link&gt;</code> 有何不同?</p>
+<span id="more"></span>
 
-<h3 id="js-中的命令模式"><a href="#js-中的命令模式" class="headerlink" title="js 中的命令模式"></a>js 中的命令模式</h3><p>在 oop 的命名模式中，通常需要把命令封装为一个对象，将接收者存储在对象中。但以上步骤其最终目的是把命令传递到接收者并执行 execute()。 也就是传递一个 function 但在 js 的世界里传递函数是一个理所当然的事儿，而存储 接收者也完全可以用闭包实现。并不需要去 new 一个对象。</p>
-<figure class="highlight javascript"><figcaption><span>command-pattern.js</span><a href="/code/design-pattern/command-pattern.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// dom 绑定 click 事件场景</span><br><span class="hljs-comment">// 绑定命令函数</span><br><span class="hljs-keyword">var</span> setCommand = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">button, command</span>) </span>{<br>  button.onclick = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    command.execute();<br>  };<br>};<br><br><span class="hljs-comment">// 封装命令方法</span><br><span class="hljs-keyword">var</span> MenuBar = {<br>  <span class="hljs-attr">refresh</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;刷新&#x27;</span>);<br>  },<br>};<br><br><span class="hljs-comment">// 使用闭包直接传递</span><br><span class="hljs-keyword">var</span> refreshCommand = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">receiver</span>) </span>{<br>  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    <span class="hljs-keyword">return</span> {<br>      <span class="hljs-attr">execute</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>        receiver.refresh();<br>      },<br>    };<br>  };<br>};<br><br><span class="hljs-keyword">const</span> btn = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">&#x27;button&#x27;</span>)[<span class="hljs-number">0</span>];<br>setCommand(btn, refresh);<br></code></pre></td></tr></table></figure>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ol>
+<li>用法: <code>@import url(&#39;a.css&#39;);</code> 或者 <code>@import &#39;a.css&#39;;</code> 且必须定义在最顶部</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> /&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;a.css&#x27;</span>);</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="加载顺序"><a href="#加载顺序" class="headerlink" title="加载顺序"></a>加载顺序</h3><p>加载页面时，link 标签引入的 CSS 被同时加载；</p>
+<p><code>@import</code> 引入的 CSS 会等到页面全部被下载完再被加载。(因为 <code>@import</code> 是有顺序的语义的)</p>
+<ol>
+<li><code>@import</code> &amp; <code>@import</code></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html">// 如果一直使用@import，那么就没有什么性能问题 两个样式文件将同时并行下载<br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;a.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;b.css&#x27;</span>);</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>link &amp; <code>@import</code></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html">//会导致样式表文件逐个加载，并行下载资源是加速页面的一个关键,在IE中link混合@import会破坏样式并行下载<br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;b.css&#x27;</span>);</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>link 嵌套 <code>@import</code></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html">//这种方式同样阻止并行加载代码，但是这次是对于所有的浏览器,其实这个应该不会感到奇怪吧，简单的想一下就能理解了。浏览器必须先下载a.css，并分析它，这个时候，浏览器发现了@import规则，然后才会开始加载b.css.<br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br>//在a.css中: @import url(&#x27;b.css&#x27;);<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>link 阻断 @import</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html">//在下载a.css完成之前，IE不会开始下载b.css。但是在其它所有的浏览器中，这种情况不会发生<br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;proxy.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br>//proxy.css的代码: @import url(&#x27;b.css&#x27;);<br></code></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>多个 <code>@import</code></p>
+<p>IE 中使用<code>@import</code> 会引起<strong>资源</strong>被按照一个不同于预期的顺序下载,在 IE 中，如果脚本中包含的代码，来自样式表文件中应用的样式(比如 getElementsByClassName)， 那么就将可能会发生意外的结果，因为脚本先于样式被加载，尽管开发人员将其置于代码的最后面。</p>
+</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs html">// @import在IE中引发资源文件的下载顺序被打乱<br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css"></span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;a.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;b.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;c.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;d.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;e.css&#x27;</span>);</span><br><span class="css">  <span class="hljs-keyword">@import</span> url(<span class="hljs-string">&#x27;f.css&#x27;</span>);</span><br><span class="css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;one.js&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>link &amp; link<br>使用 LINK 来引入样式更简单和安全,使用 LINK 可确保<strong>样式</strong>在所有浏览器里面都能被并行下载,同样能保证<strong>资源</strong>按照开发人员制定的顺序下载。</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;a.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;b.css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -243,7 +278,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
                     
                   </div>
                 
@@ -251,7 +286,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">命令模式</a>
+                      <a class="hover-with-bg" href="/tags/css/">css</a>
                     
                   </div>
                 
@@ -268,9 +303,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/10/14/%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/">
+                      <a href="/2021/10/14/html%E4%B8%AD%E7%9A%84defer%E5%92%8Casync/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">事件冒泡和捕获</span>
+                        <span class="hidden-mobile">html中的defer和async</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -278,8 +313,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/">
-                        <span class="hidden-mobile">设计模式-发布订阅模式</span>
+                      <a href="/2021/10/14/%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/">
+                        <span class="hidden-mobile">事件冒泡和捕获</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
