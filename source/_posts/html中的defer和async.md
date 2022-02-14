@@ -43,7 +43,7 @@ defer 和 async 都是 script 标签的属性 其实 script 定义的属性除�
 ```
 
 一图胜千言:
-![defer 和 async](/images/defer 和 async.jpeg)
+![defer 和 async](/images/defer和async.jpeg)
 
 ### 总结使用:
 
