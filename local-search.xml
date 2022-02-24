@@ -4,6 +4,56 @@
   
   
   <entry>
+    <title>http2</title>
+    <link href="/2022/02/23/http2/"/>
+    <url>/2022/02/23/http2/</url>
+    
+    <content type="html"><![CDATA[<p>本文简介<br>本文参考自<a href="https://">a</a></p><span id="more"></span><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p><img src="/images/browser-esmodule/2.png" alt="结果"></p><figure class="highlight javascript"><figcaption><span>promise1.js</span><a href="/code/promise/promise1.js">view raw</a></figcaption><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// 先定义三个常量表示状态</span><br><span class="hljs-keyword">const</span> PENDING = <span class="hljs-string">&#x27;pending&#x27;</span>;<br><span class="hljs-keyword">const</span> FULFILLED = <span class="hljs-string">&#x27;fulfilled&#x27;</span>;<br><span class="hljs-keyword">const</span> REJECTED = <span class="hljs-string">&#x27;rejected&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPromise</span> </span>{<br>  <span class="hljs-comment">// 状态</span><br>  status = PENDING;<br>  <span class="hljs-comment">// 返回的值</span><br></code></pre></div></td></tr></table></figure><script src="//gist.github.com/gist_id.js?file=[filename]"></script><h4 id="副标题"><a href="#副标题" class="headerlink" title="副标题"></a>副标题</h4>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>标签</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>富文本到底在解决什么问题?</title>
+    <link href="/2022/02/21/%E5%AF%8C%E6%96%87%E6%9C%AC%E5%88%B0%E5%BA%95%E5%9C%A8%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/"/>
+    <url>/2022/02/21/%E5%AF%8C%E6%96%87%E6%9C%AC%E5%88%B0%E5%BA%95%E5%9C%A8%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<p>为什么富文本被誉为“前端天坑”？具体有哪些坑？也有人称之为”前端天花板”,又凭什么成为前端天花板？</p><span id="more"></span><h2 id="经典版富文本-代表-早期轻量级编辑器如-UEditor"><a href="#经典版富文本-代表-早期轻量级编辑器如-UEditor" class="headerlink" title="经典版富文本(代表:早期轻量级编辑器如 UEditor)"></a>经典版富文本(代表:早期轻量级编辑器如 UEditor)</h2><h3 id="1-content-editable-和-exeCommand"><a href="#1-content-editable-和-exeCommand" class="headerlink" title="1.content-editable 和 exeCommand"></a>1.content-editable 和 exeCommand</h3><p>全局属性 content-editable 是富文本实现的核心,用于创建可编辑区域.而 document.exeCommand 用于触发命令,从而操作可编辑区域.</p><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Editable_content#%E4%BE%8B%E5%AD%90%EF%BC%9A%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E4%BD%86%E5%AE%8C%E6%95%B4%E7%9A%84%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8">这里有个最简单的富文本示例</a></p><p>可以 cv 下来运行一下这个示例,这个示例基本上包含了大部分常用的富文本功能.这个编辑器看似没有任何问题所有的功能都正常渲染。但真正的问题就出在这看似正常的渲染里。</p><h3 id="2-天坑的由来"><a href="#2-天坑的由来" class="headerlink" title="2.天坑的由来"></a>2.天坑的由来</h3><p>分别用 chrome 和 firefox 运行一下。 随便输入点字符，然后<strong>中间敲几个回车</strong></p><p><img src="/images/rich-text-editor/1.png" alt="对比"></p><p>可以看见虽然他们长得一样，但实际上视图层的代码语义是完全不同的</p><figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- firefox结果 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;rte-editbox&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rte-editbox-0&quot;</span> <span class="hljs-attr">contenteditable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>一串<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>字符<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- chrome结果 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;rte-editbox&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rte-editbox-0&quot;</span> <span class="hljs-attr">contenteditable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>  一串<br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>字符<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></div></td></tr></table></figure><p><code>一串</code> 这个首行字符在 firefox 下被认为是一个独立的子 div，而在 chrome 下认为是一个普通的字符.</p><p>那么这里就出现了语义上的分歧.而这种分歧在持续开发中还会有更多.而这成了富文本中的天坑。 因为 <strong>exeCommand 并不属于 w3c 规范</strong>,是完全浏览器自行实现的 api 并且对用户是完全黑盒状态，那天突然不支持了或者修改了都不好说。</p><p>在富文本的环境下我们要对 dom 进行精确操作但由于同样的 view 可能会有多种 dom 情况，并且很难一一列举需要在不停的使用中慢慢发现慢慢迭代，这也成了富文本开发的主要工作量之一。</p><blockquote><p>contentEditable 生成的 DOM 不总是符合我们的预期的。视觉上等价，但是在 DOM 结构上不是等价的。在平时 web 开发中 我们只需要关心视觉上的等价,在富文本中需要<strong>双向等价</strong>。</p></blockquote><p>那么如何解决这个问题呢? 这个时候我们就需要用到类似 vue/react 的单向数据流的思维了。<strong>如果我们弃用 exeCommand 并拦截掉浏览器默认渲染行为,所有的视图层由 data 驱动渲染,那么就可以保证 data 到 view 的一致性了</strong> 而这就是如今的富文本编辑器的主流解决方案</p><h2 id="现代版富文本-代表-draft-js-slate-js"><a href="#现代版富文本-代表-draft-js-slate-js" class="headerlink" title="现代版富文本(代表:draft-js,slate-js)"></a>现代版富文本(代表:draft-js,slate-js)</h2><p>我们知道现代富文本编辑器的核心解决思路就是弃用 exeCommand 自己实现 data 到 view 的渲染。那么他们是如何实现的呢?</p><h3 id="浅析-slate-工作流程"><a href="#浅析-slate-工作流程" class="headerlink" title="浅析 slate 工作流程"></a>浅析 slate 工作流程</h3><ul><li>在富文本操作区域内 content-editable 被继续保留, 通过拦截用户事件触发自定义 command 指令。</li><li>指令的执行会生成 Operation 队列</li><li>每个 Operation 被逐个 apply 到编辑器数据模型(增删改), 根据不同的操作修改数据模型,同时将受影响的节点表示为 dirty path。</li><li>将标识出来的 dirty path 逐个 normalize (如合并相邻文本操作)</li><li>返回最新的 数据模型(data) 重新 render 正确的结果</li></ul><div id="flowchart-0" class="flow-chart"></div><blockquote><p>很明显这就是一个单向数据流模型, 这也是富文本的标准解决方案了 draft.js 也是类似的单项数据流</p></blockquote><h3 id="现代富文本框架的瓶颈"><a href="#现代富文本框架的瓶颈" class="headerlink" title="现代富文本框架的瓶颈"></a>现代富文本框架的瓶颈</h3><p>随着时代的进步现代富文本的需求场景已经逐渐从<strong>单人编辑</strong>发展到了<strong>多人协同</strong>场景了.前面聊的 slate 可以很好的实现这个功能,slate 将 command 操作拆分为了粒度更小的 operation 队列.当我们把 operation 发送到对方, 对方便能拿到和我们一样的数据了</p><blockquote><p>与其告诉对方自己生成了怎样的内容，不如再细致一点，告诉对方自己执行了怎样的操作</p></blockquote><p>但问题在于多人协同场景,已经不仅仅是 pc 浏览器的范畴了,更有可能会是: A 在 PC Chrome 上编辑文档,B 在 ipad 上编辑,C 又在安卓上查看。</p><ol><li>由于 content-editable 依赖于浏览器,就意味着在多端适配上有天然的障碍.</li><li>各浏览器对标签的渲染实现并不相同,同一个 h1 标签在 safari 和 chrome 上就有不同的 UI 呈现.</li><li>除了 UI 呈现各浏览器实现不同,操作也有些许不同.如在 chrome 里 双击文本会拖蓝<strong>一组词语</strong>,而 firefox 双击则会拖蓝<strong>一句话</strong></li></ol><p>这些差异兼容性理论上都是可以用各种方式抹平,但这就是个无底洞每一次浏览器更新都会伴随新的问题出现</p><h2 id="最终版富文本-代表-Google-Docs-Office-Word-Online-iCloud-Pages-WPS-⽂字在线版-腾讯文档"><a href="#最终版富文本-代表-Google-Docs-Office-Word-Online-iCloud-Pages-WPS-⽂字在线版-腾讯文档" class="headerlink" title="最终版富文本(代表:Google Docs/Office Word Online/iCloud Pages/ WPS ⽂字在线版/腾讯文档)"></a>最终版富文本(代表:Google Docs/Office Word Online/iCloud Pages/ WPS ⽂字在线版/腾讯文档)</h2><p>我们可以打开以上编辑器 F12 查看一下渲染元素,会发现这种大厂的编辑器都无一例外的放弃 dom 渲染,甚至只能看见整个输入页内只有一个 空的 canvas 或者 svg 或者 div.那他们如何完成页面渲染的呢? 很可惜这种终极富文本编辑器目前没有任何相关开源项目就项目解析文章都很少,只知道 google docs 是通过 canvas 重写一个渲染层。既然从写了整个渲染层那么之前提出的多端适配/UI 一致性几乎都可以解决了。</p><p><img src="/images/rich-text-editor/2.png" alt="google docs"></p><p>毕竟既然解决不了浏览器的问题，那就把浏览器解决掉. 具体如何把浏览器无从得知,只知道极其困难。</p><p>最后用语雀文档的负责人的表格做一个直观的对比吧<br><img src="/images/rich-text-editor/3.png" alt="截取自&#39;富文本编辑器的技术演进&#39;"></p><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">start=>start: 渲染视图event=>operation: 事件拦截触发 commandoperation=>operation: 执行 command 生成 Operation 队列apply=>operation: Operation 逐个 apply 修改数据模型生成 dirty pathdirty=>operation: normalize 构建 datae=>end: 渲染视图start->event->operation->apply->dirty->e</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>富文本</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>浏览器中的ESModule</title>
     <link href="/2022/02/02/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84ESModule/"/>
     <url>/2022/02/02/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E7%9A%84ESModule/</url>
