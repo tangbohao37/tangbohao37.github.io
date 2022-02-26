@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>前端名词解析:构建工具/编译工具/打包工具</title>
+    <link href="/2022/02/26/%E5%89%8D%E7%AB%AF%E5%90%8D%E8%AF%8D%E8%A7%A3%E6%9E%90-%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7-%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7-%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/"/>
+    <url>/2022/02/26/%E5%89%8D%E7%AB%AF%E5%90%8D%E8%AF%8D%E8%A7%A3%E6%9E%90-%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7-%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7-%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/</url>
+    
+    <content type="html"><![CDATA[<p>仔细研究下前端工程化中常说的 “构建工具”/“编译工具”/“打包工具” 分别到底是什么？他们的职责边界在哪里？</p><span id="more"></span><h2 id="构建工具"><a href="#构建工具" class="headerlink" title="构建工具"></a>构建工具</h2><h3 id="什么是构建工具"><a href="#什么是构建工具" class="headerlink" title="什么是构建工具?"></a>什么是构建工具?</h3><p>首先这个概念是跟着前端工程化的脚步慢慢成熟的。我理解着是一个:能帮助整个团队在开发中能精简流程、提高效率、减少错误、并能实现自动化部署的工具。它能使开发中更专注的卷在业务逻辑里的工具！</p><p>所以这里的构建工具需要包含哪些功能呢？</p><ol><li>项目创建</li><li>项目文件编译测试</li><li>便于本地开发调试(热更新)</li><li>优化项目代码结构</li><li>项目部署</li></ol><h3 id="有哪些构建工具？"><a href="#有哪些构建工具？" class="headerlink" title="有哪些构建工具？"></a>有哪些构建工具？</h3><p>目前个人认为:gulp,Grunt,vite 这种才能算构建工具.</p><p>因为<code>构建</code>一词是针对与项目整体而言的，理论上它应该包括项目的全生命周期,而不是某一个细节。</p><h2 id="编译工具"><a href="#编译工具" class="headerlink" title="编译工具"></a>编译工具</h2><h3 id="什么是编译工具"><a href="#什么是编译工具" class="headerlink" title="什么是编译工具?"></a>什么是编译工具?</h3><p>所谓编译工具个人认为可以等同于<code>编译器</code>, 一种语言（通常为高级语言）”翻译为“另一种语言（通常为低级语言）”的程序。因此这里强调的是一种翻译能力</p><h3 id="有哪些编译工具"><a href="#有哪些编译工具" class="headerlink" title="有哪些编译工具?"></a>有哪些编译工具?</h3><p>babel、SWC(Rust-based platform for the Web)</p><h2 id="打包工具"><a href="#打包工具" class="headerlink" title="打包工具"></a>打包工具</h2><h3 id="什么是打包工具"><a href="#什么是打包工具" class="headerlink" title="什么是打包工具"></a>什么是打包工具</h3><p>在对构建工具和编译工具做了定义之后,那么打包工具就很好区分了。 打包即文件 N-&gt;1 或者 N-&gt;N</p><h3 id="有哪些打包工具"><a href="#有哪些打包工具" class="headerlink" title="有哪些打包工具"></a>有哪些打包工具</h3><p>webpack、esbuild、rollup、parcel 等。虽然 webpack 能支持引入各种 loader 似乎有一定编译能力。但个人认为在 webpack 的世界里 loader 只是作为打包路径上的一个小步骤并不是它自己的核心功能。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>富文本到底在解决什么问题?</title>
     <link href="/2022/02/21/%E5%AF%8C%E6%96%87%E6%9C%AC%E5%88%B0%E5%BA%95%E5%9C%A8%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/"/>
     <url>/2022/02/21/%E5%AF%8C%E6%96%87%E6%9C%AC%E5%88%B0%E5%BA%95%E5%9C%A8%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/</url>
