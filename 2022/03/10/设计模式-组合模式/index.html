@@ -16,21 +16,21 @@
   <meta name="author" content="Tbh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="命令模式中的命令（command）指的是一个执行某些特定事情的指令。 命令模式最常见的应用场景是：有时候需要向某些对象发送请求，但是并不知道请求的接收者是谁，也不知道被请求的操作是什么。此时希望用一种松耦合的方式来设计程序，使得请求发送者和请求接收者能够消除彼此之间的耦合关系。 oop 思想的命令模式command-pattern.jsview raw12345678910111213141516">
+    <meta name="description" content="组合模式简单来讲类似于一棵树，父节点和子节点有着类似的结构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式-命令模式">
-<meta property="og:url" content="http://example.com/2021/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:title" content="设计模式-组合模式">
+<meta property="og:url" content="http://example.com/2022/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="命令模式中的命令（command）指的是一个执行某些特定事情的指令。 命令模式最常见的应用场景是：有时候需要向某些对象发送请求，但是并不知道请求的接收者是谁，也不知道被请求的操作是什么。此时希望用一种松耦合的方式来设计程序，使得请求发送者和请求接收者能够消除彼此之间的耦合关系。 oop 思想的命令模式command-pattern.jsview raw12345678910111213141516">
+<meta property="og:description" content="组合模式简单来讲类似于一棵树，父节点和子节点有着类似的结构">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-10-12T14:54:29.000Z">
-<meta property="article:modified_time" content="2021-10-12T16:03:07.201Z">
+<meta property="article:published_time" content="2022-03-10T06:48:20.000Z">
+<meta property="article:modified_time" content="2022-03-10T11:58:03.630Z">
 <meta property="article:author" content="Tbh">
-<meta property="article:tag" content="命令模式">
+<meta property="article:tag" content="标签">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>设计模式-命令模式 - </title>
+  <title>设计模式-组合模式 - </title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -187,7 +187,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="设计模式-命令模式"></span>
+            <span id="subtitle" data-typed-text="设计模式-组合模式"></span>
           
         </div>
 
@@ -198,8 +198,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2021-10-12 22:54" pubdate>
-          2021年10月12日 晚上
+        <time datetime="2022-03-10 14:48" pubdate>
+          2022年3月10日 下午
         </time>
       </span>
     
@@ -211,7 +211,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          undefined 字
+          2k 字
         
       </span>
     
@@ -223,7 +223,7 @@
         
         
           <!-- compatible with older versions-->
-          NaN 分钟
+          17 分钟
         
       </span>
     
@@ -261,16 +261,46 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">设计模式-命令模式</h1>
+            <h1 style="display: none">设计模式-组合模式</h1>
             
             <div class="markdown-body">
               
-              <p>命令模式中的命令（command）指的是一个执行某些特定事情的指令。</p>
-<p>命令模式最常见的应用场景是：有时候需要向某些对象发送请求，但是并不知道请求的接收者是谁，也不知道被请求的操作是什么。此时希望用一种松耦合的方式来设计程序，使得请求发送者和请求接收者能够消除彼此之间的耦合关系。</p>
-<h3 id="oop-思想的命令模式"><a href="#oop-思想的命令模式" class="headerlink" title="oop 思想的命令模式"></a>oop 思想的命令模式</h3><figure class="highlight javascript"><figcaption><span>command-pattern.js</span><a href="/code/design-pattern/command-pattern.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// dom 绑定 click 事件场景</span><br><span class="hljs-comment">// 绑定命令函数</span><br><span class="hljs-keyword">var</span> setCommand = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">button, command</span>) </span>{<br>  button.onclick = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    command.execute();<br>  };<br>};<br><br><span class="hljs-comment">// 封装命令方法</span><br><span class="hljs-keyword">var</span> MenuBar = {<br>  <span class="hljs-attr">refresh</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;刷新&#x27;</span>);<br>  },<br>};<br><br><span class="hljs-comment">// 封装命令类</span><br><span class="hljs-keyword">var</span> refreshCommand = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">receiver</span>) </span>{<br>  <span class="hljs-built_in">this</span>.receiver = receiver;<br>};<br>refreshCommand.prototype.execute = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">this</span>.receiver.refresh();<br>};<br><br><span class="hljs-comment">// 创建命令对象</span><br><span class="hljs-keyword">var</span> refresh = <span class="hljs-keyword">new</span> refreshCommand(MenuBar);<br><br><span class="hljs-keyword">const</span> btn = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">&#x27;button&#x27;</span>)[<span class="hljs-number">0</span>];<br>setCommand(btn, refresh);<br></code></pre></td></tr></table></figure>
+              <p>组合模式简单来讲类似于一棵树，父节点和子节点有着类似的结构</p>
+<span id="more"></span>
 
-<h3 id="js-中的命令模式"><a href="#js-中的命令模式" class="headerlink" title="js 中的命令模式"></a>js 中的命令模式</h3><p>在 oop 的命名模式中，通常需要把命令封装为一个对象，将接收者存储在对象中。但以上步骤其最终目的是把命令传递到接收者并执行 execute()。 也就是传递一个 function 但在 js 的世界里传递函数是一个理所当然的事儿，而存储 接收者也完全可以用闭包实现。并不需要去 new 一个对象。</p>
-<figure class="highlight javascript"><figcaption><span>command-pattern.js</span><a href="/code/design-pattern/command-pattern.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// dom 绑定 click 事件场景</span><br><span class="hljs-comment">// 绑定命令函数</span><br><span class="hljs-keyword">var</span> setCommand = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">button, command</span>) </span>{<br>  button.onclick = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    command.execute();<br>  };<br>};<br><br><span class="hljs-comment">// 封装命令方法</span><br><span class="hljs-keyword">var</span> MenuBar = {<br>  <span class="hljs-attr">refresh</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;刷新&#x27;</span>);<br>  },<br>};<br><br><span class="hljs-comment">// 使用闭包直接传递</span><br><span class="hljs-keyword">var</span> refreshCommand = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">receiver</span>) </span>{<br>  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>    <span class="hljs-keyword">return</span> {<br>      <span class="hljs-attr">execute</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>        receiver.refresh();<br>      },<br>    };<br>  };<br>};<br><br><span class="hljs-keyword">const</span> btn = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">&#x27;button&#x27;</span>)[<span class="hljs-number">0</span>];<br>setCommand(btn, refresh);<br></code></pre></td></tr></table></figure>
+<p>形如</p>
+<pre class="mermaid">graph TB
+
+A((组合对象))
+B((叶对象))
+C((叶对象))
+D((叶对象))
+E((组合对象))
+F((叶对象))
+G((叶对象))
+H((叶对象))
+I((叶对象))
+A-->B
+A-->C
+A-->D
+A-->E
+E-->F
+E-->G
+E-->H
+E-->I
+
+A</pre>
+
+<p>虽然上面说了类似“父子节点”这个字眼,但是组合模式并<strong>不是父子关系</strong>,更多的是<strong>部分-整体</strong>的关系.除了用来表示树形结构外,组合模式能更好的运用对象的多态特性.用户对单个对象和组合对象的使用有着一致性</p>
+<h3 id="扫描文件夹例子"><a href="#扫描文件夹例子" class="headerlink" title="扫描文件夹例子"></a>扫描文件夹例子</h3><blockquote>
+<p>我这里需要实现一个文件夹和文件的扫描的需求.当我选择某个文件夹的时候递归吧所有子文件和子文件夹下的所有文件都显示出来.同时我还需要实现文件夹和文件的删除功能.</p>
+</blockquote>
+<figure class="highlight javascript"><figcaption><span>composite-pattern.js</span><a href="/code/design-pattern/composite-pattern.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> Folder = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">name</span>) </span>{<br>  <span class="hljs-built_in">this</span>.name = name;<br>  <span class="hljs-built_in">this</span>.files = [];<br>  <span class="hljs-built_in">this</span>.parent = <span class="hljs-literal">null</span>;<br>};<br><br>Folder.prototype.add = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">file</span>) </span>{<br>  file.parent = <span class="hljs-built_in">this</span>;<br>  <span class="hljs-built_in">this</span>.files.push(file);<br>};<br><br>Folder.prototype.remove = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">this</span>.parent) {<br>    <span class="hljs-keyword">return</span>;<br>  }<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">this</span>.files.length; i++) {<br>    <span class="hljs-keyword">const</span> file = <span class="hljs-built_in">this</span>.files[i];<br>    <span class="hljs-keyword">if</span> (file === <span class="hljs-built_in">this</span>) {<br>      <span class="hljs-built_in">this</span>.files.splice(i, <span class="hljs-number">1</span>);<br>    }<br>  }<br>};<br><br>Folder.prototype.scan = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;开始扫描文件夹&quot;</span>, <span class="hljs-built_in">this</span>.name);<br><br>  <span class="hljs-comment">// for (let i = 0; i &lt; this.files.length; i++) {</span><br>  <span class="hljs-comment">//   const file = this.files[i];</span><br>  <span class="hljs-comment">//   file.scan()</span><br>  <span class="hljs-comment">// }</span><br><br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, file, files = <span class="hljs-built_in">this</span>.files; (file = files[i++]); ) {<br>    file.scan();<br>  }<br>};<br><br>File = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">name</span>) </span>{<br>  <span class="hljs-built_in">this</span>.name = name;<br>  <span class="hljs-built_in">this</span>.parent = <span class="hljs-literal">null</span>;<br>};<br>File.prototype.remove = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">this</span>.parent) {<br>    <span class="hljs-keyword">return</span>;<br>  }<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">this</span>.parent.files.length; i++) {<br>    <span class="hljs-keyword">const</span> file = <span class="hljs-built_in">this</span>.parent.files[i];<br>    <span class="hljs-keyword">if</span> (file === <span class="hljs-built_in">this</span>) {<br>      <span class="hljs-built_in">this</span>.parent.files.splice(i, <span class="hljs-number">1</span>);<br>    }<br>  }<br>};<br>File.prototype.add = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&quot;文件下不能创建文件&quot;</span>);<br>};<br><br>File.prototype.scan = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;开始扫描文件&quot;</span>, <span class="hljs-built_in">this</span>.name);<br>};<br><br><span class="hljs-comment">// 测试</span><br><span class="hljs-keyword">var</span> rootFolder = <span class="hljs-keyword">new</span> Folder(<span class="hljs-string">&quot;root folder&quot;</span>);<br><br><span class="hljs-keyword">var</span> folder1 = <span class="hljs-keyword">new</span> Folder(<span class="hljs-string">&quot;folder1&quot;</span>);<br><br><span class="hljs-keyword">var</span> file1 = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;file1&quot;</span>);<br><span class="hljs-keyword">var</span> file2 = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;file2&quot;</span>);<br><br><span class="hljs-keyword">var</span> innerFolder = <span class="hljs-keyword">new</span> Folder(<span class="hljs-string">&quot;inner folder&quot;</span>);<br><span class="hljs-keyword">var</span> innerFile = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;inner file&quot;</span>);<br><br>rootFolder.add(folder1);<br>folder1.add(innerFolder);<br>folder1.add(file1);<br>folder1.add(file2);<br><br>innerFolder.add(innerFile);<br><br>file2.remove();<br><br>rootFolder.scan();<br><br><br><span class="hljs-comment">// 结果</span><br><span class="hljs-comment">// 开始扫描文件夹 root folder</span><br><span class="hljs-comment">// 开始扫描文件夹 folder1</span><br><span class="hljs-comment">// 开始扫描文件夹 inner folder</span><br><span class="hljs-comment">// 开始扫描文件 inner file</span><br><span class="hljs-comment">// 开始扫描文件 file1</span><br></code></pre></td></tr></table></figure>
+
+<!-- ![结果](/images/browser-esmodule/2.png)
+
+
+<script src="//gist.github.com/gist_id.js?file=[filename]"></script> -->
 
               
             </div>
@@ -288,7 +318,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="category-chain-item">设计模式</a>
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
   
   
 
@@ -303,7 +333,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">#命令模式</a>
+        <a href="/tags/%E6%A0%87%E7%AD%BE/">#标签</a>
       
     </div>
   
@@ -315,8 +345,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>设计模式-命令模式</div>
-      <div>http://example.com/2021/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</div>
+      <div>设计模式-组合模式</div>
+      <div>http://example.com/2022/03/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</div>
     </div>
     <div class="license-meta">
       
@@ -328,7 +358,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2021年10月12日</div>
+          <div>2022年3月10日</div>
         </div>
       
       
@@ -358,18 +388,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/10/14/%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/" title="事件冒泡和捕获">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">事件冒泡和捕获</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/10/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" title="设计模式-发布订阅模式">
-                        <span class="hidden-mobile">设计模式-发布订阅模式</span>
+                      <a href="/2022/02/26/%E5%89%8D%E7%AB%AF%E5%90%8D%E8%AF%8D%E8%A7%A3%E6%9E%90-%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7-%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7-%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/" title="前端名词解析:构建工具/编译工具/打包工具">
+                        <span class="hidden-mobile">前端名词解析:构建工具/编译工具/打包工具</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

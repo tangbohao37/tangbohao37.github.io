@@ -9,9 +9,10 @@ var MyImg = (function () {
 })();
 
 var ProxyImg = (function () {
+  // 创建一个空 img 标签 来监听真实图片src是否加载完
   var img = new Image();
   img.onload = function () {
-    // 这里this 只想 img 标签
+    // 真实图片 src 加载完毕后再赋值到真实 MyImg 中。 这里 this 指向 img 标签
     MyImg.setSrc(this.src);
   };
   return {
