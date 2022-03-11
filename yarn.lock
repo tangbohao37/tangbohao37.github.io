@@ -581,16 +581,6 @@
     "open" "^7.0.0"
     "serve-static" "^1.14.1"
 
-"hexo-theme-fluid@^1.8.11":
-  "integrity" "sha512-fg5yo8TD0eaiV21e7om1IOIwkuTzZGjNPmPmxGHR4jTY0A/MU1f9cdFts5YnjcJbWsGK006SeabFbm7aE9xOqA=="
-  "resolved" "https://registry.npmjs.org/hexo-theme-fluid/-/hexo-theme-fluid-1.8.11.tgz"
-  "version" "1.8.11"
-
-"hexo-theme-landscape@^0.0.3":
-  "integrity" "sha512-b0Di+TUVs4ESrNX4ULEh9uQmADpO6kr10rIJ2OGZM8suNQNFKdxn+vJUjnLfKkCPJAfVmS7/S83KCNYe4tpoNw=="
-  "resolved" "https://registry.npmjs.org/hexo-theme-landscape/-/hexo-theme-landscape-0.0.3.tgz"
-  "version" "0.0.3"
-
 "hexo-util@^2.0.0", "hexo-util@^2.1.0", "hexo-util@^2.4.0":
   "integrity" "sha512-l0zkqcg2524KPO84HQe0JROpPlCM/dEnCJaJrZ1qsq+3+/YxhDa0zxiGtUVY1dtrWzOK/V11Zj+UEklhGP8Jeg=="
   "resolved" "https://registry.npmjs.org/hexo-util/-/hexo-util-2.5.0.tgz"
@@ -895,7 +885,7 @@
   "resolved" "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz"
   "version" "3.0.0"
 
-"nunjucks@^3.0.0", "nunjucks@^3.2.1":
+"nunjucks@^3.2.1":
   "integrity" "sha512-psb6xjLj47+fE76JdZwskvwG4MYsQKXUtMsPh6U0YMvmyjRtKRFcxnlXGWglNybtNTNVmGdp94K62/+NjF5FDQ=="
   "resolved" "https://registry.npmjs.org/nunjucks/-/nunjucks-3.2.3.tgz"
   "version" "3.2.3"
