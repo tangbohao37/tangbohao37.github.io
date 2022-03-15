@@ -116,5 +116,3 @@ Content-Type: text/plain
 ```
 
 如果服务器否定了"预检"请求，会返回一个正常的 HTTP 回应，但是没有任何 CORS 相关的头信息字段。这时，浏览器就会认定，服务器不同意预检请求，因此触发一个错误，被 XMLHttpRequest 对象的 onerror 回调函数捕获。控制台会打印出如下的报错信息。
-
-{% include_code lang:javascript promise/promise1.js %}
