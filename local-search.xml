@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>面试题-原型链</title>
+    <link href="/2022/03/17/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8E%9F%E5%9E%8B%E9%93%BE/"/>
+    <url>/2022/03/17/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
+    
+    <content type="html"><![CDATA[<p>某大厂遇到一个原型链的面试题。突然发现自己对原型链理解还是不够</p><span id="more"></span><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><figure class="highlight javascript"><figcaption><span>code.js</span><a href="/code/prototype/code.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> F = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">1</span>);<br>};<br><br><span class="hljs-built_in">Function</span>.prototype.a = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;a&quot;</span>);<br>};<br><span class="hljs-built_in">Object</span>.prototype.b = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;b&quot;</span>);<br>};<br><br><span class="hljs-keyword">var</span> f = <span class="hljs-keyword">new</span> F();<br><br>f.a();<br>f.b();<br>F.a();<br>F.b();<br><br><span class="hljs-comment">// 输出啥？</span><br><br><span class="hljs-comment">// 错误答案: abab</span><br></code></pre></td></tr></table></figure><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>明显是考的原型链.那么顺着原型链向上找:</p><p>先看小 f:</p><ol><li>首先 f 是 F 的实例,那么通过<a href="https://tangbohao37.github.io/2021/07/29/js%E7%9A%84new%E5%88%B0%E5%BA%95%E5%B9%B2%E4%BA%86%E4%BB%80%E4%B9%88,%E5%8E%9F%E5%9E%8B%E9%93%BE%E5%8F%88%E6%98%AF%E4%BB%80%E4%B9%88/">new 的原理</a>可以知道 <code>f.__proto__ === F.prototype</code> . 继续向下找</li><li><code>F.prototype.__proto__ === Object.prototype</code> 因此 f.b() 肯定可以找到,而 f.a() 并在 f 的查找链上因此会报错没有这个方法</li></ol><p>再看大 F</p><ol><li><code>F.__proto__ ===Function.prototype</code> 因此 F.a() 可以找到. 继续向下找</li><li><code>Function.prototype.__proto__ === Object.prototype</code> 因此 F.b() 可以找到</li></ol><p><img src="/images/%E5%8E%9F%E5%9E%8B%E9%93%BE-%E9%9D%A2%E8%AF%95.drawio.svg" alt="结果"></p><h2 id="误区"><a href="#误区" class="headerlink" title="误区"></a>误区</h2><p>千万不要直接认为 F 的原型链上有 Function.prototype 。而 <code>f.__proto__</code>指向 F.prototype ,就<strong>想当然</strong>的认为 <del>f 的原型链上也有 Function.prototyp</del> 。js 是严格按照<code>__proto__</code>向上查找的. 这是在两条不同的链上的东西!.</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>面试</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>原型链</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>设计模式-职责链模式</title>
     <link href="/2022/03/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/"/>
     <url>/2022/03/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/</url>
