@@ -4,6 +4,56 @@
   
   
   <entry>
+    <title>useState实现原理</title>
+    <link href="/2022/03/21/useState%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <url>/2022/03/21/useState%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<p>useState 实现原理,能自己实现一个么?</p><span id="more"></span><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p><img src="/images/browser-esmodule/2.png" alt="结果"></p><figure class="highlight javascript"><figcaption><span>promise1.js</span><a href="/code/promise/promise1.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 先定义三个常量表示状态</span><br><span class="hljs-keyword">const</span> PENDING = <span class="hljs-string">&#x27;pending&#x27;</span>;<br><span class="hljs-keyword">const</span> FULFILLED = <span class="hljs-string">&#x27;fulfilled&#x27;</span>;<br><span class="hljs-keyword">const</span> REJECTED = <span class="hljs-string">&#x27;rejected&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPromise</span> </span>{<br>  <span class="hljs-comment">// 状态</span><br>  status = PENDING;<br>  <span class="hljs-comment">// 返回的值</span><br></code></pre></td></tr></table></figure><script src="//gist.github.com/gist_id.js?file=[filename]"></script><h4 id="副标题"><a href="#副标题" class="headerlink" title="副标题"></a>副标题</h4>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>react</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>手写promise.all 和 race</title>
+    <link href="/2022/03/18/%E6%89%8B%E5%86%99promise-all%E5%92%8Crace/"/>
+    <url>/2022/03/18/%E6%89%8B%E5%86%99promise-all%E5%92%8Crace/</url>
+    
+    <content type="html"><![CDATA[<p>面试官:你能用 promise 实现一个 promise.all 和 race 么?</p><span id="more"></span><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight javascript"><figcaption><span>index.js</span><a href="/code/promise-all/index.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">Promise</span>.MyAll = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">list</span>) </span>{<br>  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">let</span> result = [];<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>; index &lt; list.length; index++) {<br>      <span class="hljs-keyword">const</span> p = list[index];<br>      p.then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {<br>        result[index] = res;<br>        count++;<br>        count === list.length &amp;&amp; resolve(result);<br>      });<br>    }<br>  });<br>};<br><br><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">1</span>);<br>  resolve(<span class="hljs-number">1</span>);<br>});<br><span class="hljs-keyword">const</span> p2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-number">2</span>);<br>    resolve(<span class="hljs-number">2</span>);<br>  }, <span class="hljs-number">1000</span>);<br>});<br><span class="hljs-keyword">const</span> p3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">3</span>);<br>  resolve(<span class="hljs-number">3</span>);<br>});<br><span class="hljs-built_in">Promise</span>.MyAll([p1, p2, p3]).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(res);<br>});<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">1</span><br><span class="hljs-comment">3</span><br><span class="hljs-comment">2</span><br><span class="hljs-comment">[ 1, 2, 3 ]</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure><h2 id="promise-race-和-all-同理，更简单"><a href="#promise-race-和-all-同理，更简单" class="headerlink" title="promise.race 和 all 同理，更简单"></a>promise.race 和 all 同理，更简单</h2><p>去掉 <code>count</code> 计数, 任意一个状态扭转成功后就返回</p><figure class="highlight javascript"><figcaption><span>index.js</span><a href="/code/promise-race/index.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">Promise</span>.MyRace = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">list</span>) </span>{<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>; index &lt; list.length; index++) {<br>      <span class="hljs-keyword">const</span> p = list[index];<br>      p.then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {<br>        <span class="hljs-keyword">return</span> resolve(res);<br>      });<br>    }<br>  });<br>};<br><br><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">1</span>);<br>  resolve(<span class="hljs-number">1</span>);<br>});<br><span class="hljs-keyword">const</span> p2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-number">2</span>);<br>    resolve(<span class="hljs-number">2</span>);<br>  }, <span class="hljs-number">1000</span>);<br>});<br><span class="hljs-keyword">const</span> p3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-number">3</span>);<br>    resolve(<span class="hljs-number">3</span>);<br>  }, <span class="hljs-number">2000</span>);<br>});<br><span class="hljs-built_in">Promise</span>.MyRace([p1, p2, p3]).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;接收数据&quot;</span>, res);<br>});<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>手写js</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>面试题-原型链</title>
     <link href="/2022/03/17/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8E%9F%E5%9E%8B%E9%93%BE/"/>
     <url>/2022/03/17/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>

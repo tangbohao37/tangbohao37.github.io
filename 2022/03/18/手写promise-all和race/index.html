@@ -16,23 +16,21 @@
   <meta name="author" content="Tbh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="某大厂遇到一个原型链的面试题。突然发现自己对原型链理解还是不够">
+    <meta name="description" content="面试官:你能用 promise 实现一个 promise.all 和 race 么?">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面试题-原型链">
-<meta property="og:url" content="http://example.com/2022/03/17/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8E%9F%E5%9E%8B%E9%93%BE/index.html">
+<meta property="og:title" content="手写promise.all 和 race">
+<meta property="og:url" content="http://example.com/2022/03/18/%E6%89%8B%E5%86%99promise-all%E5%92%8Crace/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="某大厂遇到一个原型链的面试题。突然发现自己对原型链理解还是不够">
+<meta property="og:description" content="面试官:你能用 promise 实现一个 promise.all 和 race 么?">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/%E5%8E%9F%E5%9E%8B%E9%93%BE-%E9%9D%A2%E8%AF%95.drawio.svg">
-<meta property="article:published_time" content="2022-03-17T07:27:11.000Z">
-<meta property="article:modified_time" content="2022-03-17T08:43:03.837Z">
+<meta property="article:published_time" content="2022-03-18T04:01:39.000Z">
+<meta property="article:modified_time" content="2022-04-13T09:01:54.667Z">
 <meta property="article:author" content="Tbh">
-<meta property="article:tag" content="原型链">
+<meta property="article:tag" content="手写js">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/images/%E5%8E%9F%E5%9E%8B%E9%93%BE-%E9%9D%A2%E8%AF%95.drawio.svg">
   
   
-  <title>面试题-原型链 - </title>
+  <title>手写promise.all 和 race - </title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -189,7 +187,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="面试题-原型链"></span>
+            <span id="subtitle" data-typed-text="手写promise.all 和 race"></span>
           
         </div>
 
@@ -200,8 +198,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-03-17 15:27" pubdate>
-          2022年3月17日 下午
+        <time datetime="2022-03-18 12:01" pubdate>
+          2022年3月18日 中午
         </time>
       </span>
     
@@ -213,7 +211,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          689 字
+          1.3k 字
         
       </span>
     
@@ -225,7 +223,7 @@
         
         
           <!-- compatible with older versions-->
-          6 分钟
+          12 分钟
         
       </span>
     
@@ -263,28 +261,17 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">面试题-原型链</h1>
+            <h1 style="display: none">手写promise.all 和 race</h1>
             
             <div class="markdown-body">
               
-              <p>某大厂遇到一个原型链的面试题。突然发现自己对原型链理解还是不够</p>
+              <p>面试官:你能用 promise 实现一个 promise.all 和 race 么?</p>
 <span id="more"></span>
 
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><figure class="highlight javascript"><figcaption><span>code.js</span><a href="/code/prototype/code.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> F = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">1</span>);<br>};<br><br><span class="hljs-built_in">Function</span>.prototype.a = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;a&quot;</span>);<br>};<br><span class="hljs-built_in">Object</span>.prototype.b = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;b&quot;</span>);<br>};<br><br><span class="hljs-keyword">var</span> f = <span class="hljs-keyword">new</span> F();<br><br>f.a();<br>f.b();<br>F.a();<br>F.b();<br><br><span class="hljs-comment">// 输出啥？</span><br><br><span class="hljs-comment">// 错误答案: abab</span><br></code></pre></td></tr></table></figure>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight javascript"><figcaption><span>index.js</span><a href="/code/promise-all/index.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">Promise</span>.MyAll = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">list</span>) </span>{<br>  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">let</span> result = [];<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>; index &lt; list.length; index++) {<br>      <span class="hljs-keyword">const</span> p = list[index];<br>      p.then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {<br>        result[index] = res;<br>        count++;<br>        count === list.length &amp;&amp; resolve(result);<br>      });<br>    }<br>  });<br>};<br><br><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">1</span>);<br>  resolve(<span class="hljs-number">1</span>);<br>});<br><span class="hljs-keyword">const</span> p2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-number">2</span>);<br>    resolve(<span class="hljs-number">2</span>);<br>  }, <span class="hljs-number">1000</span>);<br>});<br><span class="hljs-keyword">const</span> p3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">3</span>);<br>  resolve(<span class="hljs-number">3</span>);<br>});<br><span class="hljs-built_in">Promise</span>.MyAll([p1, p2, p3]).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(res);<br>});<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">1</span><br><span class="hljs-comment">3</span><br><span class="hljs-comment">2</span><br><span class="hljs-comment">[ 1, 2, 3 ]</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>明显是考的原型链.那么顺着原型链向上找:</p>
-<p>先看小 f:</p>
-<ol>
-<li>首先 f 是 F 的实例,那么通过<a href="https://tangbohao37.github.io/2021/07/29/js%E7%9A%84new%E5%88%B0%E5%BA%95%E5%B9%B2%E4%BA%86%E4%BB%80%E4%B9%88,%E5%8E%9F%E5%9E%8B%E9%93%BE%E5%8F%88%E6%98%AF%E4%BB%80%E4%B9%88/">new 的原理</a>可以知道 <code>f.__proto__ === F.prototype</code> . 继续向下找</li>
-<li><code>F.prototype.__proto__ === Object.prototype</code> 因此 f.b() 肯定可以找到,而 f.a() 并在 f 的查找链上因此会报错没有这个方法</li>
-</ol>
-<p>再看大 F</p>
-<ol>
-<li><code>F.__proto__ ===Function.prototype</code> 因此 F.a() 可以找到. 继续向下找</li>
-<li><code>Function.prototype.__proto__ === Object.prototype</code> 因此 F.b() 可以找到</li>
-</ol>
-<p><img src="/images/%E5%8E%9F%E5%9E%8B%E9%93%BE-%E9%9D%A2%E8%AF%95.drawio.svg" srcset="/img/loading.gif" lazyload alt="结果"></p>
-<h2 id="误区"><a href="#误区" class="headerlink" title="误区"></a>误区</h2><p>千万不要直接认为 F 的原型链上有 Function.prototype 。而 <code>f.__proto__</code>指向 F.prototype ,就<strong>想当然</strong>的认为 <del>f 的原型链上也有 Function.prototyp</del> 。js 是严格按照<code>__proto__</code>向上查找的. 这是在两条不同的链上的东西!.</p>
+<h2 id="promise-race-和-all-同理，更简单"><a href="#promise-race-和-all-同理，更简单" class="headerlink" title="promise.race 和 all 同理，更简单"></a>promise.race 和 all 同理，更简单</h2><p>去掉 <code>count</code> 计数, 任意一个状态扭转成功后就返回</p>
+<figure class="highlight javascript"><figcaption><span>index.js</span><a href="/code/promise-race/index.js">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-built_in">Promise</span>.MyRace = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">list</span>) </span>{<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>; index &lt; list.length; index++) {<br>      <span class="hljs-keyword">const</span> p = list[index];<br>      p.then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {<br>        <span class="hljs-keyword">return</span> resolve(res);<br>      });<br>    }<br>  });<br>};<br><br><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">1</span>);<br>  resolve(<span class="hljs-number">1</span>);<br>});<br><span class="hljs-keyword">const</span> p2 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-number">2</span>);<br>    resolve(<span class="hljs-number">2</span>);<br>  }, <span class="hljs-number">1000</span>);<br>});<br><span class="hljs-keyword">const</span> p3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {<br>    <span class="hljs-built_in">console</span>.log(<span class="hljs-number">3</span>);<br>    resolve(<span class="hljs-number">3</span>);<br>  }, <span class="hljs-number">2000</span>);<br>});<br><span class="hljs-built_in">Promise</span>.MyRace([p1, p2, p3]).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {<br>  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;接收数据&quot;</span>, res);<br>});<br></code></pre></td></tr></table></figure>
 
               
             </div>
@@ -302,7 +289,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E9%9D%A2%E8%AF%95/" class="category-chain-item">面试</a>
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
   
   
 
@@ -317,7 +304,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE/">#原型链</a>
+        <a href="/tags/%E6%89%8B%E5%86%99js/">#手写js</a>
       
     </div>
   
@@ -329,8 +316,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>面试题-原型链</div>
-      <div>http://example.com/2022/03/17/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8E%9F%E5%9E%8B%E9%93%BE/</div>
+      <div>手写promise.all 和 race</div>
+      <div>http://example.com/2022/03/18/%E6%89%8B%E5%86%99promise-all%E5%92%8Crace/</div>
     </div>
     <div class="license-meta">
       
@@ -342,7 +329,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年3月17日</div>
+          <div>2022年3月18日</div>
         </div>
       
       
@@ -372,9 +359,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/18/%E6%89%8B%E5%86%99promise-all%E5%92%8Crace/" title="手写promise.all 和 race">
+                      <a href="/2022/03/21/useState%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" title="useState实现原理">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">手写promise.all 和 race</span>
+                        <span class="hidden-mobile">useState实现原理</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -382,8 +369,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/12/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/" title="设计模式-职责链模式">
-                        <span class="hidden-mobile">设计模式-职责链模式</span>
+                      <a href="/2022/03/17/%E9%9D%A2%E8%AF%95%E9%A2%98-%E5%8E%9F%E5%9E%8B%E9%93%BE/" title="面试题-原型链">
+                        <span class="hidden-mobile">面试题-原型链</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
