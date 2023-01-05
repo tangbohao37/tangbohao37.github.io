@@ -7,7 +7,10 @@
     "clean": "hexo clean",
     "deploy": "hexo generate && hexo deploy -g",
     "dev": "hexo server",
-    "new": "hexo new "
+    "new": "hexo new ",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   },
   "hexo": {
     "version": "5.4.1"
@@ -24,6 +27,8 @@
     "hexo-renderer-ejs": "^1.0.0",
     "hexo-renderer-marked": "^4.0.0",
     "hexo-renderer-stylus": "^2.0.0",
-    "hexo-server": "^2.0.0"
-  }
+    "hexo-server": "^2.0.0",
+    "vitepress": "1.0.0-alpha.33"
+  },
+  "packageManager": "pnpm@7.22.0"
 }
