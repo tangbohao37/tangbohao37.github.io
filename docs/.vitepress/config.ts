@@ -6,10 +6,8 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: 'without-subfolders',
   lang: 'zh-CN',
-
   themeConfig: {
     lastUpdatedText: 'Updated Date',
-
     socialLinks: [
       {
         icon: 'github',

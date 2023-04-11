@@ -5,10 +5,10 @@
   "scripts": {
     "build": "vitepress build docs",
     "dev": "vitepress dev docs",
-    "docs:serve": "vitepress serve docs"
+    "serve": "vitepress serve docs"
   },
+  "packageManager": "pnpm@7.22.0",
   "dependencies": {
-    "vitepress": "1.0.0-alpha.33"
-  },
-  "packageManager": "pnpm@7.22.0"
+    "vitepress": "1.0.0-alpha.65"
+  }
 }
