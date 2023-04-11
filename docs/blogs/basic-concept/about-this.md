@@ -7,8 +7,8 @@ categories:
 date: 2021-08-05 21:39:44
 ---
 
-关于 this 的指向一直是一个迷,
-(这里摘至)[https://juejin.cn/post/6844903891092389901]
+关于 this 的指向一直是一个迷,这里摘至
+[这里](https://juejin.cn/post/6844903891092389901)
 
 <!-- more -->
 
@@ -46,7 +46,7 @@ const obj = {
   getName() {
     console.log(this); //obj
     console.log(this.name); //joy
-  },
+  }
 };
 obj.getName();
 ```
@@ -59,11 +59,11 @@ const obj1 = {
   getName() {
     console.log(this);
     console.log(this.name);
-  },
+  }
 };
 
 const obj2 = {
-  name: 'sam',
+  name: 'sam'
 };
 
 obj1.getName.call(obj2); //obj2 sam
@@ -102,7 +102,7 @@ const obj = {
       //所以这里this也是指向obj 所以结果是12
       console.log(this.age);
     });
-  },
+  }
 };
 obj.getName();
 obj.getAge();
@@ -111,4 +111,3 @@ obj.getAge();
 ## 5 种 this 绑定的优先级
 
 > 箭头函数 -> new 绑定 -> 显示绑定 call/bind/apply -> 隐式绑定 -> 默认绑定
-

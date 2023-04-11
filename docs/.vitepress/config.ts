@@ -66,15 +66,21 @@ export default defineConfig({
         items: [
           {
             text: 'js的new到底干了什么，如何手写一个new',
-            link: '/write-code/about-new-and-prototype'
+            link: '/blogs/write-code/about-new-and-prototype'
           },
-          { text: '深入promise', link: '/write-code/about-promise' },
-          { text: '手写bind', link: '/write-code/bind' },
-          { text: '防抖和节流', link: '/write-code/debounce-and-throttle' },
-          { text: '面试题-原型链', link: '/write-code/interviewing-prototype' },
+          { text: '深入promise', link: '/blogs/write-code/about-promise' },
+          { text: '手写bind', link: '/blogs/write-code/bind' },
+          {
+            text: '防抖和节流',
+            link: '/blogs/write-code/debounce-and-throttle'
+          },
+          {
+            text: '面试题-原型链',
+            link: '/blogs/write-code/interviewing-prototype'
+          },
           {
             text: '手写promise.all 和 race',
-            link: '/write-code/promise-all-race'
+            link: '/blogs/write-code/promise-all-race'
           }
         ]
       },
@@ -84,47 +90,47 @@ export default defineConfig({
         items: [
           {
             text: '怎么理解Commonjs和ESModule',
-            link: '/basic-concept/about-commonjs-and-ESModule'
+            link: '/blogs/basic-concept/about-commonjs-and-ESModule'
           },
           {
             text: '详解CORS请求',
-            link: '/basic-concept/about-CORS-detail'
+            link: '/blogs/basic-concept/about-CORS-detail'
           },
           {
             text: '认识@import',
-            link: '/basic-concept/about-css-@import'
+            link: '/blogs/basic-concept/about-css-@import'
           },
           {
             text: 'this的指向问题',
-            link: '/basic-concept/about-this'
+            link: '/blogs/basic-concept/about-this'
           },
           {
             text: '数组解构赋值',
-            link: '/basic-concept/array-destructuring'
+            link: '/blogs/basic-concept/array-destructuring'
           },
           {
             text: 'html中的defer和async',
-            link: '/basic-concept/defer-and-async-in-html'
+            link: '/blogs/basic-concept/defer-and-async-in-html'
           },
           {
             text: '浏览器中的ESModule',
-            link: '/basic-concept/ESModule-in-browser'
+            link: '/blogs/basic-concept/ESModule-in-browser'
           },
           {
             text: 'http缓存',
-            link: '/basic-concept/http-cache'
+            link: '/blogs/basic-concept/http-cache'
           },
           {
             text: '浏览器中的ESModule',
-            link: '/basic-concept/ESModule-in-browser'
+            link: '/blogs/basic-concept/ESModule-in-browser'
           },
           {
             text: 'let/const命令',
-            link: '/basic-concept/let-const'
+            link: '/blogs/basic-concept/let-const'
           },
           {
             text: '事件冒泡和捕获',
-            link: '/basic-concept/propagation'
+            link: '/blogs/basic-concept/propagation'
           }
         ]
       },
@@ -134,23 +140,23 @@ export default defineConfig({
         items: [
           {
             text: '富文本到底在解决什么问题?',
-            link: '/some-idea/about-rich-text-editor'
+            link: '/blogs/some-idea/about-rich-text-editor'
           },
           {
             text: '前端大仓',
-            link: '/some-idea/big-multi-repository'
+            link: '/blogs/some-idea/big-multi-repository'
           },
           {
             text: '前端名词解析:构建工具/编译工具/打包工具',
-            link: '/some-idea/build-compiler-pack-tool'
+            link: '/blogs/some-idea/build-compiler-pack-tool'
           },
           {
             text: 'js 中的栈都能干什么',
-            link: '/some-idea/stack-in-js'
+            link: '/blogs/some-idea/stack-in-js'
           },
           {
             text: 'esbuild为什么这么快',
-            link: '/some-idea/why-esbuild-so-fast'
+            link: '/blogs/some-idea/why-esbuild-so-fast'
           }
         ]
       }
