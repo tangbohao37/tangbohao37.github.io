@@ -7,6 +7,8 @@ categories:
 date: 2022-03-18 12:01:39
 ---
 
+# {{ $frontmatter.title }}
+
 面试官:你能用 promise 实现一个 promise.all 和 race 么?
 
 <!-- more -->

@@ -1,1 +1,3 @@
-# index page
+# 设计模式
+
+基于《JavaScript 设计模式与开发实践》的学习记录

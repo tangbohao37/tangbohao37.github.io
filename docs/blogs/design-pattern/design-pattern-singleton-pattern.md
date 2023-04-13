@@ -7,11 +7,13 @@ categories:
 date: 2021-10-07 11:16:37
 ---
 
+# {{ $frontmatter.title }}
+
 单例模式的定义是：保证一个类仅有一个实例，并提供一个访问它的全局访问点。实现并不复杂
 
 <!-- more -->
 
-### js 中使用 OOP 的形式实现的单例模式
+## js 中使用 OOP 的形式实现的单例模式
 
 <!-- {% include_code from:1 to:25 lang:javascript design-pattern/singleton-pattern.js %} -->
 
@@ -20,7 +22,7 @@ date: 2021-10-07 11:16:37
 当然以上形式违反了“单一职责原则”,因为 CreateDiv 的构造函数做了 2 件事： 1.判断单例 2.执行 init 初始化
 当有一天我们不需要创建单例的 div 时就要重新改造构造函数了. 可以用代理优化一下
 
-#### 用代理实现单例
+### 用代理实现单例
 
 <<< @/code/design-pattern/singleton-pattern.js
 
@@ -36,7 +38,7 @@ date: 2021-10-07 11:16:37
 
 4. 在需要的时候再创建对象(惰性)
 
-### 使用 js 中的单例
+## 使用 js 中的单例
 
 前面我们使用的 OOP 的思想来实现的单例模式,但 js 是一个无类(class-free) 语言,也正因为如此，生搬单例模式的概念并无意义。在 JavaScript 中创建对象的方法非常简单，既然我们只需要一个“唯一”的对象，为什么要为它先创建一个“类”呢？传统的单例模式实现在 JavaScript 中并不适用。
 
@@ -68,7 +70,7 @@ var glob = (function () {
 })()
 ```
 
-#### 通用惰性单例
+### 通用惰性单例
 
 ```js
 var getSingle = function (fn) {

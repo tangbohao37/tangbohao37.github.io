@@ -7,9 +7,9 @@ categories:
 date: 2021-08-02 22:36:41
 ---
 
-面试官：你如何理解 promise，能手写一个么？ 答：。。。。
+# {{ $frontmatter.title }}
 
-<!-- more -->
+面试官：你如何理解 promise，能手写一个么？ 答：。。。。
 
 要了解 promise 的细节需要看 promise A+ 规范。[链接名称](https://promisesaplus.com/) 英文太多了，不看了直接上手写源码
 

@@ -7,15 +7,13 @@ categories:
 date: 2022-03-17 15:27:11
 ---
 
-某大厂遇到一个原型链的面试题。突然发现自己对原型链理解还是不够
+# {{ $frontmatter.title }}
 
-<!-- more -->
+某大厂遇到一个原型链的面试题。突然发现自己对原型链理解还是不够
 
 ## 题目
 
 <<< @/code/prototype/code.js
-
-<!-- {% include_code lang:javascript from:1 prototype/code.js %} -->
 
 ## 分析
 

@@ -22,143 +22,143 @@ export default defineConfig({
     sidebar: [
       {
         text: '简单理解设计模式',
-        collapsed: true,
-        link: 'blogs/design-pattern/',
+        link: '/blogs/design-pattern/',
         items: [
           {
             text: '模板模式',
-            link: './design-pattern-template-pattern'
+            link: '/blogs/design-pattern/design-pattern-template-pattern'
           },
           {
             text: '策略模式',
-            link: './design-pattern-strategy-pattern'
+            link: '/blogs/design-pattern/design-pattern-strategy-pattern'
           },
           {
             text: '单例模式',
-            link: './design-pattern-singleton-pattern'
+            link: '/blogs/design-pattern/design-pattern-singleton-pattern'
           },
           {
             text: '发布订阅模式',
-            link: './design-pattern-publish-subscribe-pattern'
+            link: '/blogs/design-pattern/design-pattern-publish-subscribe-pattern'
           },
           {
             text: '迭代器模式',
-            link: './design-pattern-iterator-pattern'
+            link: '/blogs/design-pattern/design-pattern-iterator-pattern'
           },
           {
             text: '组合模式',
-            link: './design-pattern-composite-pattern'
+            link: '/blogs/design-pattern/design-pattern-composite-pattern'
           },
           {
             text: '命令模式',
-            link: './design-pattern-command-pattern'
+            link: '/blogs/design-pattern/design-pattern-command-pattern'
           },
           {
             text: '职责链模式',
-            link: './design-pattern-chain-of-responsibility-pattern'
+            link: '/blogs/design-pattern/design-pattern-chain-of-responsibility-pattern'
+          },
+          {
+            text: '代理模式',
+            link: '/blogs/design-pattern/design-pattern-proxy-pattern'
           }
         ]
       },
       {
         text: '手写代码',
-        collapsed: true,
-        link: 'blogs/write-code/',
+        link: '/blogs/write-code/',
         items: [
           {
-            text: 'js的new到底干了什么，如何手写一个new',
-            link: './about-new-and-prototype'
+            text: 'js的new到底干了什么,如何手写一个new',
+            link: '/blogs/write-code/about-new-and-prototype'
           },
-          { text: '深入promise', link: './about-promise' },
-          { text: '手写bind', link: './bind' },
+          { text: '深入promise', link: '/blogs/write-code/about-promise' },
+          { text: '手写bind', link: '/blogs/write-code/bind' },
           {
             text: '防抖和节流',
-            link: './debounce-and-throttle'
+            link: '/blogs/write-code/debounce-and-throttle'
           },
           {
             text: '面试题-原型链',
-            link: './interviewing-prototype'
+            link: '/blogs/write-code/interviewing-prototype'
           },
           {
             text: '手写promise.all 和 race',
-            link: './promise-all-race'
+            link: '/blogs/write-code/promise-all-race'
           }
         ]
       },
       {
         text: '基础概念',
-        collapsed: true,
-        link: 'blogs/basic-concept/',
+        link: '/blogs/basic-concept/',
         items: [
           {
             text: '怎么理解Commonjs和ESModule',
-            link: './about-commonjs-and-ESModule'
+            link: '/blogs/basic-concept/about-commonjs-and-ESModule'
           },
           {
             text: '详解CORS请求',
-            link: './about-CORS-detail'
+            link: '/blogs/basic-concept/about-CORS-detail'
           },
           {
             text: '认识@import',
-            link: './about-css-@import'
+            link: '/blogs/basic-concept/about-css-@import'
           },
           {
             text: 'this的指向问题',
-            link: './about-this'
+            link: '/blogs/basic-concept/about-this'
           },
           {
             text: '数组解构赋值',
-            link: './array-destructuring'
+            link: '/blogs/basic-concept/array-destructuring'
           },
           {
             text: 'html中的defer和async',
-            link: './defer-and-async-in-html'
+            link: '/blogs/basic-concept/defer-and-async-in-html'
           },
           {
             text: '浏览器中的ESModule',
-            link: './ESModule-in-browser'
+            link: '/blogs/basic-concept/ESModule-in-browser'
           },
           {
             text: 'http缓存',
-            link: './http-cache'
+            link: '/blogs/basic-concept/http-cache'
           },
           {
             text: '浏览器中的ESModule',
-            link: './ESModule-in-browser'
+            link: '/blogs/basic-concept/ESModule-in-browser'
           },
           {
             text: 'let/const命令',
-            link: './let-const'
+            link: '/blogs/basic-concept/let-const'
           },
           {
             text: '事件冒泡和捕获',
-            link: './propagation'
+            link: '/blogs/basic-concept/propagation'
           }
         ]
       },
       {
         text: '个人思考',
-        collapsed: true,
-        link: 'blogs/some-idea/',
+        link: '/blogs/some-idea/',
         items: [
           {
             text: '富文本到底在解决什么问题?',
-            link: './about-rich-text-editor'
+            link: '/blogs/some-idea/about-rich-text-editor'
           },
           {
             text: '前端大仓',
-            link: './big-multi-repository'
+            link: '/blogs/some-idea/big-multi-repository'
           },
           {
             text: '前端名词解析:构建工具/编译工具/打包工具',
-            link: './build-compiler-pack-tool'
+            link: '/blogs/some-idea/build-compiler-pack-tool'
           },
           {
             text: 'js 中的栈都能干什么',
-            link: './stack-in-js'
+            link: '/blogs/some-idea/stack-in-js'
           },
           {
             text: 'esbuild为什么这么快',
-            link: './why-esbuild-so-fast'
+            link: '/blogs/some-idea/why-esbuild-so-fast'
           }
         ]
       }
