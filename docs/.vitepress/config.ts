@@ -7,6 +7,21 @@ export default defineConfig({
   cleanUrls: true,
   lang: 'zh-CN',
   themeConfig: {
+    nav: [
+      {
+        text: 'GPT',
+        items: [
+          {
+            text: 'single-conversation ',
+            link: 'https://gregarious-valkyrie-0327ac.netlify.app/'
+          },
+          {
+            text: 'multiple-conversion ',
+            link: 'https://gregarious-valkyrie-0327ac.netlify.app/'
+          }
+        ]
+      }
+    ],
     lastUpdatedText: 'Updated Date',
     socialLinks: [
       {
