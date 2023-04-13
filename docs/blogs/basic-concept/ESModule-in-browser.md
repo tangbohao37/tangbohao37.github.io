@@ -1,11 +1,9 @@
 ---
-# title: 浏览器中的ESModule
-# tags:
-#   - 标签
-# categories:
-#   - 前端
-# date: 2022-02-02 18:24:09
+title: 浏览器中的ESModule
+date: 2022-02-02 18:24:09
 ---
+
+# {{ $frontmatter.title }}
 
 目前浏览器开始逐步支持原生 ESModule,那么如何理解这个特性呢?对于开发而言又会产生哪些变化呢?
 本文参考自[张鑫旭的博客](https://www.zhangxinxu.com/wordpress/2018/08/browser-native-es6-export-import-module/)
@@ -48,7 +46,7 @@ import { foo } from './bar.mjs';
 import { foo } from '../bar.mjs';
 ```
 
-3. 默认按 defer([defer 和 async 详情](./html中的defer和async)) 行为的顺序加载
+3. 默认按 defer([defer 和 async 详情](./defer-and-async-in-html)) 行为的顺序加载
 
 - defer 简单说明
 
