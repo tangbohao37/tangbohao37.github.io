@@ -156,6 +156,10 @@ export default defineConfig({
         link: '/blogs/some-idea/',
         items: [
           {
+            text: '关于 monorepe 的一些想法',
+            link: '/blogs/some-idea/about-monorepo'
+          },
+          {
             text: '富文本到底在解决什么问题?',
             link: '/blogs/some-idea/about-rich-text-editor'
           },

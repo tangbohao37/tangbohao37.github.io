@@ -15,9 +15,8 @@ date: 2022-03-10 14:48:20
 import mermaid from '../../components/mermaid.vue'
 </script>
 
-<mermaid>
+<mermaid mermaidStr="
 graph TB
-
 A((组合对象))
 B((叶对象))
 C((叶对象))
@@ -34,10 +33,8 @@ A-->E
 E-->F
 E-->G
 E-->H
-E-->I
-
+E-->I">
 </mermaid>
-
 
 虽然上面说了类似“父子节点”这个字眼,但是组合模式并**不是父子关系**,更多的是**部分-整体**的关系.除了用来表示树形结构外,组合模式能更好的运用对象的多态特性.用户对单个对象和组合对象的使用有着一致性
 
