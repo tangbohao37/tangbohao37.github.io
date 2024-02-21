@@ -7,22 +7,11 @@ export default defineConfig({
   cleanUrls: true,
   lang: 'zh-CN',
   themeConfig: {
-    nav: [
-      {
-        text: 'GPT',
-        items: [
-          {
-            text: 'single-conversation ',
-            link: 'https://gregarious-valkyrie-0327ac.netlify.app/'
-          },
-          {
-            text: 'multiple-conversion ',
-            link: 'https://gregarious-valkyrie-0327ac.netlify.app/'
-          }
-        ]
-      }
-    ],
+    nav: [],
     lastUpdatedText: 'Updated Date',
+    outline: {
+      level: 'deep'
+    },
     socialLinks: [
       {
         icon: 'github',
@@ -174,10 +163,24 @@ export default defineConfig({
           {
             text: 'js 中的栈都能干什么',
             link: '/blogs/some-idea/stack-in-js'
+          }
+        ]
+      },
+      {
+        text: 'vitepress实现组件库站点',
+        base: '/blogs/vitepress/',
+        items: [
+          {
+            text: '用vitepress写一个vue3/react组件库(1)',
+            link: 'vitepress-theme-components-1'
           },
           {
-            text: 'esbuild为什么这么快',
-            link: '/blogs/some-idea/why-esbuild-so-fast'
+            text: '用vitepress写一个vue3/react组件库(2)',
+            link: 'vitepress-theme-components-2'
+          },
+          {
+            text: '用vitepress写一个vue3/react组件库(3)',
+            link: 'vitepress-theme-components-3'
           }
         ]
       }

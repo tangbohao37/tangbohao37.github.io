@@ -2,6 +2,7 @@
   "name": "blog",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "vitepress build docs",
     "dev": "vitepress dev docs",
@@ -9,6 +10,6 @@
   },
   "packageManager": "pnpm@7.22.0",
   "dependencies": {
-    "vitepress": "1.0.0-alpha.65"
+    "vitepress": "1.0.0-rc.43"
   }
 }
